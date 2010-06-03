@@ -1,0 +1,22 @@
+--- php-pecl-bbcode-1.1.0/php_bbcode.h~	2010-06-03 19:56:11.000000000 +0300
++++ php-pecl-bbcode-1.1.0/php_bbcode.h	2010-06-03 19:57:05.469721645 +0300
+@@ -15,7 +15,7 @@
+   | Author: Xavier De Cock <void@php.net>                                |
+   +----------------------------------------------------------------------+
+ 
+-  $Id$ 
++  $Id$ 
+ */
+ #ifndef PHP_BBCODE_H
+ #define PHP_BBCODE_H 1
+--- php-pecl-bbcode-1.1.0/php_bbcode.c~	2010-06-03 19:56:11.000000000 +0300
++++ php-pecl-bbcode-1.1.0/php_bbcode.c	2010-06-03 19:57:26.069095059 +0300
+@@ -15,7 +15,7 @@
+   | Author: Xavier De Cock <void@php.net>                                |
+   +----------------------------------------------------------------------+
+ 
+-  $Id$ 
++  $Id$ 
+ */
+ #ifdef HAVE_CONFIG_H
+ #include "config.h"

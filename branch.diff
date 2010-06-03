@@ -1,0 +1,3211 @@
+Index: package2.xml
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/xml
+Index: config.w32
+===================================================================
+--- config.w32	(.../tags/RELEASE_1_0_2)
++++ config.w32	(.../trunk)
+@@ -0,0 +1,10 @@
++// $Id$
++// vim:ft=javascript
++
++ARG_ENABLE("bbcode", "BBcode", "no");
++
++if (PHP_BBCODE != "no") {
++	EXTENSION("bbcode", "php_bbcode.c");
++	ADD_SOURCES(configure_module_dirname + "/lib", "bbcode2.c bstrlib.c", "bbcode");
++	AC_DEFINE('HAVE_BBCODE', 1, 'Have BBCODE library');
++}
+
+Property changes on: config.w32
+___________________________________________________________________
+Added: svn:eol-style
+   + native
+Added: svn:keywords
+   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+Added: cvs2svn:cvs-rev
+   + 1.2
+
+Index: tests/test_ivy.phpt
+===================================================================
+--- tests/test_ivy.phpt	(.../tags/RELEASE_1_0_2)
++++ tests/test_ivy.phpt	(.../trunk)
+@@ -0,0 +1,506 @@
++--TEST--
++BBCODE No parse Test
++--FILE--
++<?php
++if (!extension_loaded("bbcode")){
++	if (!dl('bbcode.so')){
++		die ('bbcode not loadable');
++	}
++}
++define("____page","");
++$text=<<<EOF
++[just][center][round][color=red][size=18]Nous Recherchons un(e) ministre d'urgence Contactez [id=7760]moi[/id][/size][/color][/round][/center][/just]<br />
++<br />
++<br />
++<br />
++<br />
++[just][center][quote=[color=green]Pod Pocket[/color]]<br />
++[color=teal]Avec l'arrivé de l'été, arrive le nouveau line 6 Pod Pocket, quelle coinsidence !!!<br />
++Il s'agit donc d'un mini simulateur d'ampli de la célèbre ligné Pod qui est le fer de lance de la marque depuis son lancement en 1998.<br />
++<br />
++Line 6 étant les rois de la simulation d'ampli, la firme s'oriente donc avec ce produit vers le marché de la musique mobile. Cette nouveauté ne sort pas avant les vacances d'été pour rien, il s'avère être très design, facile à transporter et donc l'outil idéal pour les vacances.<br />
++<br />
++De la taille d'un simple accordeur, le Pod pocket est tout de même ultra complet. En effet, il possède à son menu 32 modélisations d'amplis, 16 baffles et pas moins de 16 effets intégrés. Vous ne rêvez pas, vous vous dites il est si petit mais offre-t-il  les mêmes capacités que le Pod II ? et bien oui !<br />
++Et tenez vous bien, il marche à piles (pour se la jouer rebelz sur la plage... :p) ou sur secteur (pour vous perfectionner avant de vous la jouer sur la plage...:p). Donc que vous soyez frimeur à montrer vos 4 accords aux potes en exterieur espérant attirer les demoiselles, ou que vous soyez enfermé dans votre cagibi depuis 2 mois jonglant entre la carte son du pc et votre guitare, il vous est déstiné et vous simplifira certainement les choses.[/color][/quote][/center][/just]<br />
++<br />
++[just][center][size=16][color=red][b][u][just][center][round][color=lightblue][b][u]Voici les données constructeur :[/just][/center][/size][/color][/b][/u][/just][/center][/round][/color][/b][/u]<br />
++<br />
++[just][center][round][color=lightblue][b][u]Caractéristiques :[/u][/b][/color]<br />
++[list]<br />
++[*]300 presets modifiables<br />
++[*]32 modélisations d'amplis<br />
++[*]16 modélisations d'enceintes<br />
++[*]16 effets<br />
++[*]alimentation par un pile AAA<br />
++[*]Entrées jack 6.35 et 3.5<br />
++[*]Connexion USB<br />
++[*]technologie A.I.R. II permettant un enregistrement direct<br />
++[*]connexion au site customtone.com pour télécharger jusqu'à 3000 sons<br />
++[*]logiciel d'édition PC[/round][/center][/just]<br />
++[/list]<br />
++<br />
++[just][center][round][color=lightgreen][b][u]Modèles d’amplis basés sur:[/u][/b][/color]<br />
++[list]<br />
++[*]’64 Fender® Deluxe Reverb®<br />
++[*]’59 Fender® Bassman®<br />
++[*]’68 Marshall® Plexi 100 watt <br />
++[*]Rencontre d’un Marshall® JTM-45 et d’un Budda Twinmaster <br />
++[*]’60 Tweed Fender® Champ® <br />
++[*]Tête Budda Twinmaster<br />
++[*]’65 Blackface Fender® Twin Reverb® <br />
++[*]’60 Vox® AC 15 <br />
++[*]’60 Vox® AC 30 non-Top Boost <br />
++[*]’85 Mesa/Boogie® Mark IIc+ canal Clean<br />
++[*]’85 Mesa/Boogie® Mark IIc+ canal Drive Canal Clean du Dumble® Overdrive Special<br />
++[*]’95 Tête Mesa/Boogie® Dual Rectifier®<br />
++[*]’89 Soldano SLO Super Lead Overdrive Canal Drive du Dumble® Overdrive Special <br />
++[*]1987 Roland® JC-120 Jazz Chorus Line 6® Insane[/round][/center][/just]<br />
++[/list]<br />
++[just][center][round][color=lightyellow][b][u]Modèles d’enceintes basés sur:[/u][b][/color]<br />
++[list]<br />
++[*]1960 Fender® Tweed Champ®<br />
++[*]1952 Fender® Tweed Deluxe Reverb® <br />
++[*]1960 Vox® AC-15 <br />
++[*]1964 Fender® Deluxe Reverb® <br />
++[*]1965 Fender® Blackface Twin Reverb®<br />
++[*]1967 Vox® AC-30 <br />
++[*]1995 Matchless Chieftain <br />
++[*]1959 Fender® Bassman® <br />
++[*]1996 Marshall® avec haut-parleurs 30 vintage <br />
++[*]1978 Marshall® avec haut-parleurs 70 d’origine <br />
++[*]1968 Marshall® Basketweave avec Greenbacks Line 6® 4x12 Line 6® 1x12 Line 6® 2x12 Line 6® 4x10 [/round][/center][/just][/list]<br />
++<br />
++<br />
++[just][center][round][color=pink][b][u]16 effets :[/u][/b][/color]<br />
++Compresseur ; Délai/Compresseur <br />
++Trémolo ; Délai/Trémolo <br />
++Chorus 1 ; Délai/Chorus <br />
++Chorus 2 ; Délai/Chorus <br />
++Flanger 1 ; Délai/Flanger1 <br />
++Flanger 2 ; Délai/Flanger<br />
++Haut-parleur rotatif<br />
++Délai/Délai ; Délai Réverbération.[/round][/center][/just] <br />
++<br />
++[just][center][round][color=red][b][u]Prix :[/u][/b][/color] <br />
++[list]<br />
++[*][color=red]99,00€[/color] sur www.woodbrass.com<br />
++[*][color=grey]119,00€[/color] prix public conseillé.[/list]<br />
++<br />
++[color=lime][b][u]Liens :[/u][/b][/color]<br />
++<br />
++infos tirées des sites suivants :<br />
++<br />
++[url=http://www.guitariste.com/articles/pocket-pod,890,1.html]www.guitariste.com[/url]<br />
++[url=http://fr.line6.com/pocketpod/index.html]www.line6.com[/url]<br />
++[/round][/center][/just] <br />
++<br />
++[just][center][size=16][color=blue][u][border]Questions :[/border][/u][/color][/size]<br />
++[list][color="blue]<br />
++[*] Pour vous ce type d'appareil est-il indispensable ?<br />
++[*] Selon vous c'est une innovation ou une remasterisation ?<br />
++[*] Le trouvez vous pratique de par sa taille et ses capacités ?[/color]<br />
++[/center][/just][/list]
++EOF;
++$arrayBBCode=array(
++    'h1'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<h1>',                                            'close_tag'=>'</h1>'),
++    'h2'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<h2>',                                            'close_tag'=>'</h2>'),
++    'h3'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<h3>',                                            'close_tag'=>'</h3>'),
++    'b'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<b>',                                            'close_tag'=>'</b>'),
++    'u'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<u>',                                            'close_tag'=>'</u>'),
++    'i'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<i>',                                            'close_tag'=>'</i>'),
++    'm'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<a href="/maraboutage.php">',                    'close_tag'=>'</a>'),
++    'cap'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<span style="text-transform:capitalize;">',    'close_tag'=>'</span>'),
++    'mini'=>    array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<span class="mini">',                            'close_tag'=>'</span>'),
++    'right'=>    array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<div style="text-align:right;">',                'close_tag'=>'</div>'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').''),
++    'center'=>    array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<div style="text-align:center;">',                'close_tag'=>'</div>'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').''),
++    'just'=>    array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<div style="text-align:justify;width:450px;margin:0 auto;">',                'close_tag'=>'</div>'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').''),
++    'strike'=>    array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<span style="text-decoration:line-through;">',    'close_tag'=>'</span>'),
++    'ancre'=>    array('type'=>BBCODE_TYPE_NOARG,    'childs'=>'',        'open_tag'=>'<a name="',                                    'close_tag'=>'"> &nbsp;</a>'),
++    'moumou'=>    array('type'=>BBCODE_TYPE_NOARG,    'childs'=>'',        'open_tag'=>'<img src="',                                    'close_tag'=>'" />'),
++    'round'=>    array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<div style="border:2px double white;border-radius: 8px; padding:6px; -moz-border-radius: 8px; background-color:#000; color:#FFF;">',    'close_tag'=>'</div>'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').''),
++    'hide'=>    array('type'=>BBCODE_TYPE_NOARG,    'childs'=>'',        'open_tag'=>'',                                                'close_tag'=>'',                                            'content_handling'=>'BBVoid'),
++    'np'=>        array('type'=>BBCODE_TYPE_NOARG,    'childs'=>'',        'open_tag'=>'',                                                'close_tag'=>''),
++    'img'=>        array('type'=>BBCODE_TYPE_NOARG,    'childs'=>'',        'open_tag'=>'<img src="{CONTENT}" alt="',                    'close_tag'=>'" />',            'content_handling'=>'content_validate_url'),
++    'swf'=>        array('type'=>BBCODE_TYPE_NOARG,                        'open_tag'=>'<object width="320" height="240"><param name="movie" value="{CONTENT}"></param><param name="wmode" value="transparent"></param><embed src="', 'close_tag'=>'" type="application/x-shockwave-flash" wmode="transparent" width="320" height="240"></embed></object>'),
++    'quote'=>    array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_ARG_PARSING|BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<fieldset><legend>{PARAM}</legend>',                'close_tag'=>'</fieldset>'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').'',    'default_arg'=>'Citation'),
++    'id'=>        array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'',                                                'close_tag'=>'',            'default_arg'=>'{SELF}',        'content_handling'=>'BBId2User'),
++    'msg'=>        array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'',                                                'close_tag'=>'',            'default_arg'=>'{SELF}',        'content_handling'=>'BBId2Msg'),
++    'url'=>        array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<a href="{PARAM}">',                                'close_tag'=>'</a>',        'default_arg'=>'{CONTENT}',        'param_handling'=>'validate_url', 'content_handling'=>'content_validate_url'),
++    'mail'=>    array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<a href="mailto:{PARAM}">',                        'close_tag'=>'</a>',        'default_arg'=>'{CONTENT}'),
++    'border'=>    array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<div style="border:{PARAM}px solid;'.(basename(____page,".php")=="chat-2"?'margin-left:15px;padding-left:15px;':'').'">',            'close_tag'=>'</div>'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').'',        'default_arg'=>'5'),
++    'list'=>    array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'childs'=>'*',    'open_tag'=>'',    'close_tag'=>'',    'default_arg'=>'-1',    'content_handling'=>'BBList'),
++    '*'=>        array('type'=>BBCODE_TYPE_NOARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY|BBCODE_FLAGS_ONE_OPEN_PER_LEVEL,    'open_tag'=>'<li>',    'close_tag'=>'</li>'),
++    'col'=>        array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<div style="-moz-column-count:{PARAM}; text-align:justify;-moz-column-gap:8px;'.(basename(____page,".php")=="chat-2"?'margin-left:15px;padding-left:15px;':'').'">',    'close_tag'=>'</div>'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').'',        'default_arg'=>'2'),
++    'hexdump'=>    array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'childs'=>'',    'open_tag'=>'[Hex Dump]<br />',                                'close_tag'=>''.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').'',            'default_arg'=>'0x345622',        'content_handling'=>'BBHexDump'),
++    'bcktrc'=>    array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'childs'=>'',        'open_tag'=>'',                                                'close_tag'=>''.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').'',            'default_arg'=>'0x345622',        'content_handling'=>'BBBackTrace'),
++    'bong'=>    array('type'=>BBCODE_TYPE_OPTARG,    'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'childs'=>'onglet',    'open_tag'=>'<div id="{PARAM}"'.(basename(____page,".php")=="chat-2"?' style="margin-left:15px;padding-left:15px;"':'').'>',                                'close_tag'=>'</div>'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').'<script type="text/javascript">new OngletsBlock(\'{PARAM}\');</script>','default_arg'=>'Fiche', 'param_handling'=>'random_id'),
++    'onglet'=>    array('type'=>BBCODE_TYPE_ARG,        'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'parents'=>'bong',    'open_tag'=>'<h4>{PARAM}</h4><div title="{PARAM}" closable="true" style="clear:both;'.(basename(____page,".php")=="chat-2"?'margin-left:15px;padding-left:15px;':'').'">','close_tag'=>'</div>','default_arg'=>'Default'),
++    'color'=>    array('type'=>BBCODE_TYPE_ARG,        'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<span style="color:{PARAM}">',                    'close_tag'=>'</span>'),
++    'size'=>    array('type'=>BBCODE_TYPE_ARG,        'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<span style="font-size:{PARAM}px;">',            'close_tag'=>'</span>'),
++    'goto'=>    array('type'=>BBCODE_TYPE_ARG,        'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'open_tag'=>'<a href="#{PARAM}" onmouseover="this.href=document.location.href.replace(/#.*/img ,\'\')+\'#{PARAM}\'">', 'close_tag'=>'</a>'),
++    'fade'=>    array('type'=>BBCODE_TYPE_ARG,        'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'childs'=>'',        'open_tag'=>'',                                                'close_tag'=>'',                                            'content_handling'=>'BBDegrade'),
++    'wave'=>    array('type'=>BBCODE_TYPE_ARG,        'flags'=>BBCODE_FLAGS_REMOVE_IF_EMPTY,    'childs'=>'',        'open_tag'=>'',                                                'close_tag'=>'',                                            'content_handling'=>'BBWave'),
++    'barre'=>    array('type'=>BBCODE_TYPE_SINGLE,                        'open_tag'=>'<hr />'.(basename(____page,".php")=="chat-2"?'&nbsp; &nbsp; &nbsp;':'').''),
++);
++$arrayBBCode_meta=array(
++    'b'=>        array('name'=>'G',            'title'=>'Placer le texte en gras [b][/b]',                            'style'=>'font-weight:bold;'),
++    'u'=>        array('name'=>'S',            'title'=>'Souligner le texte [u][/u]',                                'style'=>'text-decoration:underline;'),
++    'i'=>        array('name'=>'I',            'title'=>'Placer le texte en italique[i][/i]',                        'style'=>'font-style:italic;'),
++    'm'=>        array('name'=>'Marabou',    'title'=>'Faites de la pub pour le marabou![m][/m]'),
++    'cap'=>        array('name'=>'Majusc.',    'title'=>'Force le texte à être affiché en capitales [cap][/cap]',    'style'=>'text-transform:capitalize;'),
++    'mini'=>    array('name'=>'Mini',        'title'=>'Rendez votre texte tout petit [mini][/mini]',                                                            'class'=>'mini'),
++    'right'=>    array('name'=>'Right',        'title'=>'Aligner votre texte à droite [right][/right]',            'style'=>'text-align:right;'),
++    'center'=>    array('name'=>'Center',        'title'=>'Centrer votre texte [center][/center]',                    'style'=>'text-align:center;'),
++    'just'=>    array('name'=>'Justifié',    'title'=>'Justifier votre texte [just][/just]',                        'style'=>'text-align:justify;'),
++    'strike'=>    array('name'=>'Strike',        'title'=>'Barre votre texte [strike] [/strike]',                    'style'=>'text-decoration:line-through;'),
++    'ancre'=>    array('name'=>'Ancre',        'title'=>'Placez sur votre fiche un point de repere [ancre][/ancre]'),
++    'moumou'=>    'hidden',
++    'round'=>    array('name'=>'Round',        'title'=>'Un cadre sur fond noir à bord arrondi à essayer [round][/round]',    'style'=>'border:2px double white;border-radius: 8px; padding:6px; -moz-border-radius: 8px; background-color:#000; color:#FFF;'),
++    'hide'=>    array('name'=>'Masquer',    'title'=>'Masquer le contenu (rendre invisible) [hide][/hide]'),
++    'np'=>        array('name'=>'Bloc non traité',    'title'=>'Défini un bloc dont le bbcode ne sera pas traité [np][/np]'),
++    'quote'=>    array('name'=>'Citation',    'title'=>'Faire une citation [quote]ou [quote=auteur] [/quote]',                        'prompt'=>'Auteur de la citation (Esc si aucun)'),
++    'id'=>        array('name'=>'Lien Fiche',    'title'=>'Faire un lien vers la fiche d\'un utilisateur [id=115][/id]',                    'prompt'=>'Id de l\'Ivyen?'),
++    'url'=>        array('name'=>'Lien',        'title'=>'Créez un lien à partir d\'une url [url] ou [url=http://...][/url]',            'prompt'=>'Url du lien avec http:// (Esc si url dans la balise)'),
++    'img'=>        array('name'=>'Image',        'title'=>'Créez un lien image [img]http://...[/img]',                                    'img_prompt'=>'Url de l\'image avec http:// '),
++    'mail'=>    array('name'=>'Lien Mail',    'title'=>'Créez un lien à partir d\'une url [mail] ou [mail=u@c.c][/mail]',                'prompt'=>'Adresse mail (Esc si adresse dans la balise)'),
++    'border'=>    array('name'=>'Bordure',    'title'=>'Créez un cadre avec une bordure [border] ou [border=X][/border]',                'prompt'=>'Taille de la bordure (Esc pour defaut)'),
++    'list'=>    array('name'=>'Listes',        'title'=>'Créez une liste avec puce [list] ou [list=X][*]element1[*]element2[/list]',    'prompt'=>'Type de liste: (1 / I / a / ...) ( Esc pour défaut )'),
++    'col'=>        array('name'=>'Colonnes',    'title'=>'Divise le texte en X colonnes (Firefox 1.5) [col=X][/col]',                    'prompt'=>'Nombre de colonnes'),
++    'hexdump'=>    array('name'=>'HexDump',    'title'=>'HexDump (truc me faisant marrer, je suis désolé) [hexdump=0X3456][/hexdump]',    'prompt'=>'Adresse de démarrage format 0xFED3'),
++    'bcktrc'=>    array('name'=>'BackTrace',    'title'=>'BackTrace (comme HexDump) [bcktrc=0X3456][/bcktrc]',                            'prompt'=>'Adresse de démarrage format 0xFED3'),
++    'msg'=>        array('name'=>'Lien Message','title'=>'Créer un lien direct pour envoyer un message à ivyen [msg=X][/msg]',            'prompt'=>'Id de l\'ivyen'),
++    'color'=>    array('name'=>'Couleur',    'title'=>'Défini la couleur du texte [color=XXX][/color]',                                'prompt'=>'Entrez la couleur désirée',            'dropdown'=>array('aqua'=> 'Aqua', 'black'=> 'Noir', 'blue'=> 'Bleu', 'fuchsia'=> 'Fuschia', 'gray'=> 'Gris', 'green'=> 'Vert', 'lime'=> 'Citron Vert', 'maroon'=> 'Marron', 'navy'=> 'Bleu Marine', 'olive'=> 'Olive', 'purple'=> 'Violet', 'red'=> 'Rouge', 'silver'=> 'Argent', 'teal'=> 'Teal', 'white'=> 'Blanc', 'yellow'=> 'Jaune','--'=>'Couleur personnalis&eacute;e', 'def'=>'Choisir couleur')),
++    'size'=>    array('name'=>'Size',        'title'=>'Taille du texte [size=XXX][/size]',                                                                                            'dropdown'=>array('24'=> 'Gigantesque (24)', '20'=> 'Enorme (20)', '16'=> 'Grand(16)', '12'=> 'Normal(12)', '8'=> 'Petit(8)', 'def'=>'Taille du texte'),),
++    'goto'=>    array('name'=>'Goto',        'title'=>'Crée un lien vers une ancre du meme bloc [goto=X][/goto]',                    'prompt'=>'Ancre à cibler'),
++    'fade'=>    array('name'=>'Dégradé',    'title'=>'Fournis des dégradés d\'une couleur à une autre [wave=XX:YY:ZZ:...][/wave] Séparez les couleurs par des : (donnez les couleurs en Hexa ex: 000000:FF0000:00FF00 (ne supporte pas les tags internes)',            'prompt'=>'Donnez les couleurs séparées par un : ex 0000FF:00FF00:FF0000'),
++    'wave'=>    array('name'=>'Vagues',        'title'=>'Fait aller en vague un texte [wave=XX:YY][/wave] avec les tailles oscillant entre XX et YY (ne supporte pas les tags internes)',                                                                                'prompt'=>'Donnez le min et le max séparés par un :'),
++    'barre'=>    array('name'=>'Barre',         'title'=>'Insere une barre horizontale [barre]'),
++);
++
++$BBHandler=bbcode_create($arrayBBCode);
++$array_smileys=array(
++    "[fight]"    =>'/smileys/smile142.gif',
++    ":p"        =>'/smileys/smile019.gif',
++    ":-/"        =>'/smileys/smile046.gif',
++    "[fuck]"    =>'/smileys/smile007.gif',
++    "[y]"        =>'/smileys/smile054.gif',
++    "[l]"        =>'/smileys/smile121.gif',
++    ":D"        =>'/smileys/smile004.gif',
++    ":B"        =>'/smileys/2pointsB.gif',
++    ":*"        =>'/smileys/smile013.gif',
++    ":))))"        =>'/smileys/smile008.gif',
++    ":))"        =>'/smileys/smile005.gif',
++    ":)"        =>'/smileys/smile147.gif',
++    ";)"        =>'/smileys/smile144.gif',
++    ":("        =>'/smileys/smile001.gif',
++    ":'("        =>'/smileys/smile002.gif',
++    "[6]"        =>'/smileys/smile006.gif',
++    ":@"        =>'/smileys/smile003.gif',
++    ":o"        =>'/smileys/smile145.gif',
++    ":$"        =>'/smileys/smile146.gif',
++    ":cret:"    =>'/smileys/lapin.png',
++    ":sm:"        =>'/smileys/sm.gif',
++    "(8)"        =>'/smileys/note.gif',
++    "",
++    "[vtff]"    =>'/smileys/smile149.gif',
++    "[f]"        =>'/smileys/smile143.gif',
++    "[bou]"        =>'/smileys/smile148.gif',
++    "[serenade]"=>'/smileys/smile052.gif',
++    "[Love]"    =>'/smileys/smile009.gif',
++    );
++$array_smileys_yahoo=array(
++            "yh;))"            =>"/yahoo/yb671.gif",
++            "yh;)"            =>"/yahoo/yb63.gif",
++            "yh;;)"            =>"/yahoo/yb65.gif",
++            "yh:-/"            =>"/yahoo/yb67.gif",
++            "yh:x"            =>"/yahoo/yb68.gif",
++            "yh:-x"            =>"/yahoo/yb68.gif",
++            "yh:\">"        =>"/yahoo/yb69.gif",
++            "yh:-P"            =>"/yahoo/yb610.gif",
++            "yh:P"            =>"/yahoo/yb610.gif",
++            "yh:-*"            =>"/yahoo/yb611.gif",
++            "yh:*"            =>"/yahoo/yb611.gif",
++            "yh:-O"            =>"/yahoo/yb613.gif",
++            "yhX-("            =>"/yahoo/yb614.gif",
++            "yh:->"            =>"/yahoo/yb615.gif",
++            "yhB-)"            =>"/yahoo/yb616.gif",
++            "yh:-S"            =>"/yahoo/yb617.gif",
++            "yh>;:)"        =>"/yahoo/yb619.gif",
++            "yh>:)"            =>"/yahoo/yb619.gif",
++            "yh:(("            =>"/yahoo/yb620.gif",
++            "yh:))"            =>"/yahoo/yb621.gif",
++            "yh:|"            =>"/yahoo/yb622.gif",
++            "yh/:)"            =>"/yahoo/yb623.gif",
++            "yhO:-)"        =>"/yahoo/yb625.gif",
++            "yh:-B"            =>"/yahoo/yb626.gif",
++            "yh=;"            =>"/yahoo/yb627.gif",
++            "yhI-)"            =>"/yahoo/yb628.gif",
++            "yh|-)"            =>"/yahoo/yb628.gif",
++            "yh8-|"            =>"/yahoo/yb629.gif",
++            "yh:-$"            =>"/yahoo/yb632.gif",
++            "yh[-("            =>"/yahoo/yb633.gif",
++            "yh:o)"            =>"/yahoo/yb634.gif",
++            "yh8-}"            =>"/yahoo/yb635.gif",
++            "yh(:|"            =>"/yahoo/yb637.gif",
++            "yh=P~"            =>"/yahoo/yb638.gif",
++            "yh:-?"            =>"/yahoo/yb639.gif",
++            "yh#-o"            =>"/yahoo/yb640.gif",
++            "yh=D>"            =>"/yahoo/yb641.gif",
++            "yh:@)"            =>"/yahoo/yb649.gif",
++            "yh3:-o"        =>"/yahoo/yb650.gif",
++            "yh3:-0"        =>"/yahoo/yb650.gif",
++            "yh:(|)"        =>"/yahoo/yb651.gif",
++            "yh@};-"        =>"/yahoo/yb653.gif",
++            "yh%%-"            =>"/yahoo/yb654.gif",
++            "yh**=="        =>"/yahoo/yb655.gif",
++            "yh(~~)"        =>"/yahoo/yb656.gif",
++            "yh~o)"            =>"/yahoo/yb657.gif",
++            "yh*-:)"        =>"/yahoo/yb658.gif",
++            "yh8-x"            =>"/yahoo/yb659.gif",
++            "yh=:)"            =>"/yahoo/yb660.gif",
++            "yh>-)"            =>"/yahoo/yb661.gif",
++            "yh:-L"            =>"/yahoo/yb662.gif",
++            "yh>):)"        =>"/yahoo/yb648.gif",
++            "yh[-o<"        =>"/yahoo/yb663.gif",
++            "yh@-) "        =>"/yahoo/yb643.gif",
++            "yh$-)"            =>"/yahoo/yb664.gif",
++            "yh:-\""        =>"/yahoo/yb665.gif",
++            "yh:^O"            =>"/yahoo/yb644.gif",
++            "yhb-("            =>"/yahoo/yb666.gif",
++            "yh:)>-"        =>"/yahoo/yb667.gif",
++            "yh[-X"            =>"/yahoo/yb668.gif",
++            "yh\\:D/"        =>"/yahoo/wbyim59.gif",
++            "yh>:D<"        =>"/yahoo/yb66.gif",
++            "yh=))"            =>"/yahoo/yb624.gif",
++            "yhL-)"            =>"/yahoo/yb630.gif",
++            "yh:-w"            =>"/yahoo/yb645.gif",
++            "yh:-<"            =>"/yahoo/yb646.gif",
++            "yh>:P"            =>"/yahoo/yb647.gif",
++            "yh>:/"            =>"/yahoo/yb670.gif",
++            "yh:-@"            =>"/yahoo/yb676.gif",
++            "yh^:)^"        =>"/yahoo/yb677.gif",
++            "yh:-j"            =>"/yahoo/yb678.gif",
++            "yh(*)"            =>"/yahoo/yb679.gif",
++            "yh:D"            =>"/yahoo/yb64.gif",
++            "yh:("            =>"/yahoo/yb62.gif",
++            "yh:)"            =>"/yahoo/yb61.gif",
++            "yh:-&"            =>"/yahoo/yb631.gif",
++            );
++
++foreach($array_smileys as $smil=>$replacement){
++    $replacement=" <img src=\"http://images.ivynet.org".$replacement."\" alt=\"".($smil)."\" /> ";
++    bbcode_add_smiley($BBHandler,$smil,$replacement);
++}
++foreach($array_smileys_yahoo as $smil=>$replacement){
++    $replacement=" <img src=\"http://images.ivynet.org".$replacement."\" alt=\"".($smil)."\" /> ";
++    bbcode_add_smiley($BBHandler,$smil,$replacement);
++}
++bbcode_set_flags($BBHandler,BBCODE_CORRECT_REOPEN_TAGS | BBCODE_ARG_DOUBLE_QUOTE | BBCODE_ARG_SINGLE_QUOTE | BBCODE_ARG_HTML_QUOTE | BBCODE_AUTO_CORRECT, BBCODE_SET_FLAGS_SET);
++if (!function_exists('bbCode')){
++    function bbCode($message){
++        global $BBHandler;
++        $err=error_reporting(E_ALL);
++        $message=bbcode_parse($BBHandler,$message);
++        $message=str_replace("  "," &nbsp;",$message);
++        error_reporting($err);
++        return $message;
++        //$BBHandler->treat($message);
++        //return $message;
++    }
++}
++
++function BBSize($content,$param){
++    $param=min(24,max(4,$param));
++    return $param;
++}
++function BBList($content,$param){
++    if ($param=="-1"){
++        return '<ul>'.$content.'</ul>';
++    } else {
++        return '<ol type="'.$param.'">'.$content.'</ol>';
++    }
++}
++function BBInt($content,$param){
++    $param= (int) $param;
++    return $param;
++}
++function BBBorder($content,$param){
++    $param= min(8,max(1,$param));
++    return $param;
++}
++function bbid2user($content,$param){
++    if ($param=='{SELF}'){
++        $param=(int)$content;
++        $content='pseudo';
++    }
++    $id=$param;
++    $content="<a href='".$content."'>".$content."</a>";
++    return $content;
++}
++function BBId2Msg($content,$param){
++    if ($param=='{SELF}'){
++        $param=(int)$content;
++        $content='pseudo';
++    }
++    $id=$param;
++    $content="<a href='/message.php?destinataire=$id'>".html_encode_string($content)."</a>";
++    return $content;
++}
++function BBWave($content,$param="8:24"){
++    if ($_GET['page']=="chat-2.php"){
++        return ("[wave=$param]".$content."[/wave]");
++    }
++    $content=str_replace("\r\n","\n",$content);
++    $string=preg_split('//u',html_entity_decode(strip_tags($content),ENT_QUOTES,"UTF-8"),-1,PREG_SPLIT_NO_EMPTY);
++    list ($min, $max)=explode(":",$param);
++    $out="";
++    if ($max==$min){
++        return true;
++    }
++    if ($max<$min){
++        $tmp=$max;
++        $max=$min;
++        $min=$tmp;
++    }
++    if (strlen($content)<$max-$min && $content!=0){
++        $step=round(($max-$min)/$content);
++    }
++    else{
++        $step=1;
++    }
++    $i=$min;
++    $up=true;
++    foreach ($string as $car){
++        $car=html_encode_string($car);
++        $out.="<span style='font-size:".$i."px;'>".$car."</span>";
++        if ($up){
++            $i+=$step;
++        }else {
++            $i-=$step;
++        }
++        if ($i>=$max){
++            $up=false;
++            $i=$max;
++        }
++        elseif($i<=$min){
++            $up=true;
++            $i=$min;
++        }
++    }
++    $content=$out;
++    return $content;
++}
++function shortenAuthor($content,$param=""){
++    if (strlen($param)>150){
++        $param=substr($param,0,150);
++    }
++    return $param;
++}
++function BBDegrade($content,$param=""){
++    $content=str_replace("\r\n","\n",$content);
++    $string=preg_split('//u',html_entity_decode(strip_tags($content),ENT_QUOTES,"UTF-8"),-1,PREG_SPLIT_NO_EMPTY);
++    $colors=explode(":",$param);
++    $out="";
++    foreach($colors as $v){
++        $col[]=array('r'=>base_convert(substr($v,0,2),16,10),'g'=>base_convert(substr($v,2,2),16,10),'b'=>base_convert(substr($v,4,6),16,10));
++    }
++    $str_size=sizeof($string);
++    $nb_col=sizeof($col);
++    if ($nb_col<2)
++    {
++        return $content;
++    }
++    $steps=max(round($str_size/($nb_col-1)),1);
++    $last=null;
++    foreach ($string as $k=>$car){
++        $car=html_encode_string($car);
++        if ($k%$steps==0){
++            $nb=$k/$steps;
++            $r=sprintf("%02x",$col[$nb]['r']);
++            $g=sprintf("%02x",$col[$nb]['g']);
++            $b=sprintf("%02x",$col[$nb]['b']);
++        }
++        elseif($k>($steps*($nb_col-1))){
++            $nb=$nb_col-1;
++            $r=sprintf("%02x",$col[$nb]['r']);
++            $g=sprintf("%02x",$col[$nb]['g']);
++            $b=sprintf("%02x",$col[$nb]['b']);
++        }else{
++            $nb=ceil($k/$steps);
++            $r=sprintf("%02x",(abs(round($col[$nb-1]['r']-((($col[$nb-1]['r']-$col[$nb]['r'])/$steps)*($k%$steps))))));
++            $g=sprintf("%02x",(abs(round($col[$nb-1]['g']-((($col[$nb-1]['g']-$col[$nb]['g'])/$steps)*($k%$steps))))));
++            $b=sprintf("%02x",(abs(round($col[$nb-1]['b']-((($col[$nb-1]['b']-$col[$nb]['b'])/$steps)*($k%$steps))))));
++        }
++        $current=$r.$g.$b;
++        if (is_null($last)){
++            $first=$current;
++        }
++        if ($current!=$last){
++            $out.='</span><span style="color:#'.$current.';">';
++            $last=$current;
++        }
++        $out.=$car;
++    }
++    $out.='</span>';
++    return substr($out,strlen('</span>'));
++}
++function BBVoid($content,$param){
++    return " ";
++}
++function BBBackTrace($string,$base)
++{
++    $string=br2nl($string);
++    $base=base_convert($base,16,10);
++    $step=16;
++    $tmp="";
++    $i=0;
++    while ($i<strlen($string))
++    {
++        $tmp.="[<b>0x".base_convert($base+$i,10,16)."-0x".base_convert($base+$i+$step-1,10,16)."</b> : \"".addcslashes(substr($string,$i,$step),"\n\t\\'\"\0")."\"]<br />\n";
++        $i+=$step;
++    }
++    $string=$tmp;
++    return $string;
++}
++function BBHexDump($string,$base)
++{
++    $string=br2nl($string);
++    $base=base_convert($base,16,10);
++    $step=16;
++    $tmp="";
++    $i=0;
++    while ($i<strlen($string))
++    {
++        $tmp.="[<b>0x".base_convert($base+$i,10,16)."-0x".base_convert($base+$i+$step-1,10,16)."</b> : 0x";
++        for ($j=0;$j<$step;$j++){
++            $tmp.=sprintf("%02x",ord(substr($string,$i+$j,1)));
++        }
++        $tmp.="]<br />\n";
++        $i+=$step;
++    }
++    $string=$tmp;
++    return $string;
++}
++function random_id($content, $param){
++    return uniqid($param."_");
++}
++function content_validate_url($content,$param){
++    if ($param=="{CONTENT}"){
++        return validate_url($param,$content);
++    }
++    return $content;
++}
++function validate_url($content, $param){
++}
++//$text="[i] Parser [b] Auto Correction [/i] at work [/b]\n";
++bbCode($text);
++bbCode($text);
++bbCode($text);
++bbCode($text);
++bbCode($text);
++bbCode($text);
++bbcode_destroy($BBHandler);
++echo "Nothing";
++?>
++--EXPECT--
++Nothing
+
+Property changes on: tests/test_ivy.phpt
+___________________________________________________________________
+Added: svn:eol-style
+   + native
+Added: svn:keywords
+   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+Added: cvs2svn:cvs-rev
+   + 1.4
+
+Index: tests/test_26.phpt
+===================================================================
+--- tests/test_26.phpt	(.../tags/RELEASE_1_0_2)
++++ tests/test_26.phpt	(.../trunk)
+@@ -0,0 +1,84 @@
++--TEST--
++BBCODE Param and Content Callbacks
++--FILE--
++<?php
++if (!extension_loaded('bbcode')){
++        if (!dl('bbcode.so')){
++                die ('bbcode not loadable');
++        }
++}
++Class Foo_C{
++	static function bar($content,$param){
++		return "Foo_C::bar ".$content;
++	}
++	function foo($content, $param) {
++		return "Foo_C->foo_cb() ".$content;
++	}
++}
++function C_callback($content, $param){
++	return "C_Callback ".$content;
++}
++Class Foo_P{
++	static function bar($content,$param){
++		return "Foo_P::bar ".$param;
++	}
++	function foo($content, $param) {
++		return "Foo_P->foo() ".$param;
++	}
++}
++function P_callback($content, $param){
++	return "P_Callback ".$param;
++}
++function f_empty(){}
++
++$foo_C = new Foo_C;
++$foo_P = new Foo_P;
++
++$arrayBBCode=array(
++	'i'=>		array('type' => BBCODE_TYPE_ARG, 'open_tag' => '<i {PARAM}>', 'close_tag' => '</i>',
++					'content_handling' => array('Foo_C', 'bar'),
++					'param_handling'   => array('Foo_P', 'bar'),
++				),
++	'b'=>		array('type' => BBCODE_TYPE_ARG, 'open_tag' => '<b {PARAM}>', 'close_tag' => '</b>',
++					'content_handling' => array($foo_C, 'foo'),
++					'param_handling'   => array($foo_P, 'foo'),
++				),
++	'u'=>		array('type' => BBCODE_TYPE_ARG, 'open_tag' => '<u {PARAM}>', 'close_tag' => '</u>',
++					'content_handling' => 'C_callback',
++					'param_handling'   => 'P_callback',
++				),
++	'e'=>		array('type' => BBCODE_TYPE_ARG, 'open_tag' => '<e {PARAM}>', 'close_tag' => '</e>',
++					'content_handling' => 'f_empty',
++					'param_handling'   => 'f_empty',
++				),
++);
++$text=<<<EOF
++[u=aa]Underlined Text[/u]
++[i=aa]Italic Text[/i]
++[b=aa]Bold Text[/b]
++[e=aa]Emptied Text[/e]
++EOF;
++$BBHandler = bbcode_create($arrayBBCode);
++echo "== Run #1 ==\n", bbcode_parse($BBHandler,$text);
++echo "\n";
++echo "== Run #2 ==\n", bbcode_parse($BBHandler,$text);
++echo "\n";
++echo "== Run #3 ==\n", bbcode_parse($BBHandler,$text);
++bbcode_destroy($BBHandler);
++?>
++--EXPECT--
++== Run #1 ==
++<u P_Callback aa>C_Callback Underlined Text</u>
++<i Foo_P::bar aa>Foo_C::bar Italic Text</i>
++<b Foo_P->foo() aa>Foo_C->foo_cb() Bold Text</b>
++<e ></e>
++== Run #2 ==
++<u P_Callback aa>C_Callback Underlined Text</u>
++<i Foo_P::bar aa>Foo_C::bar Italic Text</i>
++<b Foo_P->foo() aa>Foo_C->foo_cb() Bold Text</b>
++<e ></e>
++== Run #3 ==
++<u P_Callback aa>C_Callback Underlined Text</u>
++<i Foo_P::bar aa>Foo_C::bar Italic Text</i>
++<b Foo_P->foo() aa>Foo_C->foo_cb() Bold Text</b>
++<e ></e>
+
+Property changes on: tests/test_26.phpt
+___________________________________________________________________
+Added: svn:eol-style
+   + native
+Added: svn:keywords
+   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+Added: cvs2svn:cvs-rev
+   + 1.1
+
+Index: tests/test_27.phpt
+===================================================================
+--- tests/test_27.phpt	(.../tags/RELEASE_1_0_2)
++++ tests/test_27.phpt	(.../trunk)
+@@ -0,0 +1,25 @@
++--TEST--
++BBCODE Invalid quote segfaults
++--SKIP--
++<?php
++if (!extension_loaded('bbcode')){
++	die ('skip bbcode not loadable');
++}
++?>
++--FILE--
++<?php
++
++$text = <<< MSG
++[quote=a]foo[/quote]
++[quote="b]bar[/quote]
++MSG;
++
++$BBCode = array(
++	'quote' => array('type'=> BBCODE_TYPE_OPTARG),
++);
++
++echo bbcode_parse(bbcode_create($BBCode), $text);
++?>
++--EXPECT--
++foo
++[quote="b]bar[/quote]
+
+Property changes on: tests/test_27.phpt
+___________________________________________________________________
+Added: svn:eol-style
+   + native
+Added: svn:keywords
+   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+Added: cvs2svn:cvs-rev
+   + 1.1
+
+
+Property changes on: tests
+___________________________________________________________________
+Added: svn:ignore
+   + *.diff
+*.mem
+*.log
+*.out
+*.exp
+*.swp
+*.php
+phpt.*
+
+
+Index: bbcode.php
+===================================================================
+--- bbcode.php	(.../tags/RELEASE_1_0_2)
++++ bbcode.php	(.../trunk)
+@@ -0,0 +1,989 @@
++<?php
++/**
++ * BBCode Library
++ *
++ */
++/**
++ * A complex BBCode Tags Parser
++ *
++ * The BBCode Array Arguments
++ * childs
++ * close_tag
++ * content_handling
++ * default_arg
++ * flags > BBCode::FLAGS_*
++ * open_tag
++ * parents
++ * param_handling
++ * type > BBCode::TYPE_*
++ */
++Class BBCode{
++	const TYPE_NOARG=		1;
++	const TYPE_SINGLE=		2;
++	const TYPE_ARG=			3;
++	const TYPE_OPTARG=		4;
++	const TYPE_ROOT=		10;
++
++	// Flags
++	const FLAGS_ARG_PARSING=			1;
++	const FLAGS_CDATA_NOT_ALLOWED=		2;
++	const FLAGS_SMILEYS_ON=				4;
++	const FLAGS_SMILEYS_OFF=			8;
++	const FLAGS_ONE_OPEN_PER_LEVEL=		16;
++	/* Quote style accepted */
++	/**
++	 * Accepts args with no quotes ([tag=arg])
++	 * Cannot be disabled
++	 */
++	const ARG_NO_QUOTE=0;
++	/**
++	 * Accepts args with double quotes ([tag="arg"])
++	 */
++	const ARG_DOUBLE_QUOTE=1;
++	/**
++	 * Accepts args with single quotes ([tag='arg'])
++	 * one of the Double / Single quote is needed for subparsing
++	 */
++	const ARG_SINGLE_QUOTE=2;
++
++	/**
++	 * Enable autocorrection of HTML By closing "still opened tags"
++	 *
++	 * @var boolean
++	 */
++	public $auto_correct=true;
++	/**
++	 * If tags are incorrectly nested, they are closed and reopened
++	 * after the previous tag close
++	 *
++	 * @var boolean
++	 */
++	public $correct_reopen_tags=true;
++	/**
++	 * Indicate wheter smileys are treated or not if no tag level 
++	 * instructions override this
++	 *
++	 * @var boolean
++	 */
++	public $default_smileys=true;
++	/**
++	 * Indicates what styles of quotes are accepted
++	 *
++	 * @var int
++	 */
++	public $quote_styles;
++	/**
++	 * Disable BBCode Parsing
++	 *
++	 * @var boolean
++	 */
++	public $noTreeBuild=false;
++	/**
++	 * Disable Smileys
++	 *
++	 * @var boolean
++	 */
++	public $force_smileys_off=false;
++
++	/**
++	 * Privates Vars
++	 *
++	 * @var BBCode - if a specific parser is needed for argument parsing
++	 */
++	private $arg_parser=null;
++
++	/**
++	 * The internal working Tree
++	 *
++	 * @var Array
++	 */
++	private $tree;
++	/**
++	 * Lists Levels to access the root level
++	 * @var array
++	 */
++	private $stack;
++	/**
++	 * An index to lists tags opened through the stack
++	 * @var array
++	 */
++	private $stackIndex;
++	/**
++	 * The active Node
++	 * @var array
++	 */
++	private $currentNode;
++	/**
++	 * Lists of unclosed stack
++	 * @var array
++	 */
++	private $toClose;
++	/**
++	 * An index to lists unclosed tag
++	 * @var array
++	 */
++	private $toCloseIndex;
++
++	/**
++	 * The List of tags (external representation)
++	 *
++	 * @var array
++	 */
++	private $tagList;
++	/**
++	 * The List of tags (internal representation)
++	 *
++	 * @var array
++	 */
++	private $tagListCache;
++	/**
++	 * The index to map TagName to tagid
++	 *
++	 * @var array
++	 */
++	private $tagListIndex;
++	/**
++	 * The list of smileys
++	 *
++	 * @var array
++	 */
++	private $smileys;
++
++	private $close_time=0;
++	private $add_time=0;
++
++	/**
++	 * The Constructor
++	 *
++	 * @param array $tag_init a list of BBCode for quick init
++	 * @param array $smileys_init a list of smileys for quick init
++	 */
++	public function __construct($tag_init=null,$smileys_init=null){
++		$this->tagList=$this->smileys=array();
++		if (is_array($tag_init)){
++			$this->tagList=$tag_init;
++			$this->tagListCache=null;
++		}
++		if (is_array($smileys_init)){
++			$this->smileys=$smileys_init;
++		}
++		$this->quote_styles=self::ARG_NO_QUOTE|self::ARG_DOUBLE_QUOTE|self::ARG_SINGLE_QUOTE;
++		$this->tree=null;
++	}
++	/**
++	 * Attach a parser as argument sub-parser
++	 *
++	 * @param BBCode $bbcode_parser
++	 */
++	public function set_arg_parser($bbcode_parser){
++		$this->arg_parser=null;
++		if ($bbcode_parser instanceof BBCode){
++			$this->arg_parser=$bbcode_parser;
++		}
++	}
++	/**
++	 * This function is there to add an individual tag to the list
++	 *
++	 * @param string $tag_name
++	 * @param array $array
++	 */
++	public function add_element($tag_name,$array){
++		$this->tagList[$tag_name]=$array;
++		$this->tagListCache=null;
++	}
++	/**
++	 * Adds an individual smiley to the list
++	 *
++	 * @param string $smiley
++	 * @param string $replacement
++	 */
++	public function attach_smileys($smiley, $replacement){
++		$this->smileys[$smiley]=$replacement;
++	}
++
++	/**
++	 * Parse a string from BBCode following the rules given
++	 * 
++	 * @param String $string
++	 * @return string
++	 */
++	public function parse($string){
++		// Init
++		$this->toCloseIndex=$this->toClose=$this->stackIndex=$this->stack=array();
++		$this->tree=null;
++		if ($this->noTreeBuild){
++			$this->tree=array('i'=>$this->get_tag_id(''),'p'=>true,'s'=>'');
++			$this->tree['c'][] = $string;
++		} else {
++			$this->prepareTagList();
++			// Tree construction
++			$this->build_tree($string);
++			// Tree corrections and fetch
++			$this->correct_tree();
++		}
++		// Conversion
++		return $this->apply_rules($this->tree);
++	}
++
++	/**
++	 * Convert external representation of the taglist to internal
++	 *
++	 */
++	private function prepareTagList(){
++		if ($this->tagListCache!=null){
++			return;
++		}
++		if (!isset($this->tagList[''])){
++			$this->tagList['']=array();
++		}
++		$i=0;
++		// 1. Populate the tagListCache
++		$all=array();
++		foreach($this->tagList as $tag=>$tag_datas){
++			$all[]=$i;
++			$this->tagListIndex[$tag]=$i;
++			/**
++			 * Internal fields:
++			 * 
++			 *  0 	'type'
++			 *  1	'open_tag'
++			 *  2	'close_tag'
++			 *  3	'default_arg'
++			 *  4	'flags'
++			 *  5	'parents'
++			 *  6	'childs'
++			 *  7	'content_handling'
++			 *  8	'content_handling_is_callback'
++			 *  9 	'param_handling'
++			 * 10	'param_handling_is_callback'
++			 * 11	'accept_arg'
++			 * 12	'accept_noarg'
++			 * 13	'start_has_bracket_open'
++			 * 14	'end_has_bracket_open'
++			 * 15	'accept_smileys'
++			 */
++			$type=isset($tag_datas['type'])?$tag_datas['type']:BBCODE_TYPE_NOARG;
++			$start=isset($tag_datas['open_tag'])?$tag_datas['open_tag']:'';
++			$end=isset($tag_datas['close_tag'])?$tag_datas['close_tag']:'';
++			$flags=isset($tag_datas['flags'])?$tag_datas['flags']:0;
++			$this->tagListCache[$i]=array($type,
++			$start,
++			$end,
++			isset($tag_datas['default_arg'])?$tag_datas['default_arg']:'',
++			$flags,
++			isset($tag_datas['parents'])?$tag_datas['parents']:'all',
++			isset($tag_datas['childs'])?$tag_datas['childs']:'all',
++			isset($tag_datas['content_handling'])?$tag['content_handling']:'',
++			null,
++			isset($tag_datas['param_handling'])?$tag['param_handling']:'',
++			null,
++			(bool)($type==BBCode::TYPE_ARG || $type==BBCode::TYPE_OPTARG),
++			(bool)($type==BBCode::TYPE_NOARG || $type==BBCode::TYPE_OPTARG || $type==BBCode::TYPE_SINGLE),
++			(bool)(strpos($start,"{")),
++			(bool)(strpos($end,"{")),
++			((($flags&(BBCode::FLAGS_SMILEYS_OFF|BBCode::FLAGS_SMILEYS_ON))==0)&& $this->default_smileys ) || $flags&(BBCode::FLAGS_SMILEYS_ON),
++			);
++			++$i;
++		}
++		// 2. Parse Child / Parents List
++		foreach($this->tagListCache as $i=>$val){
++			// Childs
++			if ($val[6]=='all'){
++				$val[6]=$all;
++			} elseif ($val[6]==''){
++				$val[6]=array();
++			} elseif ($val[6][0]=='!'){
++				$values=explode(',',substr($val[6],1));
++				$val[6]=$all;
++				foreach ($values as $element){
++					if($tag_id=$this->get_tag_id($element)){
++						$pos=array_search($tag_id,$val[6]);
++						unset($val[6][$pos]);
++					}
++				}
++			} else {
++				$values=explode(',',$val[6]);
++				foreach ($values as $element){
++					$val[6]=array();
++					if($tag_id=$this->get_tag_id($element)){
++						$val[6][]=$tag_id;
++					}
++				}
++			}
++			//Parents
++			if ($val[5]=='all'){
++				$val[5]=$all;
++			} elseif ($val[5]==''){
++				$val[5]=array();
++			} elseif ($val[5][0]=='!'){
++				$val[5]=$all;
++				$values=explode(',',substr($val[5],1));
++				foreach ($values as $element){
++					$val[5]=array();
++					if($tag_id=$this->get_tag_id($element)){
++						$pos=array_search($val[5],$tag_id);
++						unset($val[5][$pos]);
++					}
++				}
++			} else {
++				$values=explode(',',$val[5]);
++				foreach ($values as $element){
++					$val[5]=array();
++					if($tag_id=$this->get_tag_id($element)){
++						$val[5][]=$tag_id;
++					}
++				}
++			}
++			$this->tagListCache[$i]=$val;
++		}
++	}
++
++	/**
++	 * Build the tree representation of the given string
++	 *
++	 * @param string $string
++	 */
++	private function build_tree($string){
++		$strlen=strlen($string);
++		$quote_double=(bool)$this->quote_styles&self::ARG_DOUBLE_QUOTE;
++		$quote_single=(bool)$this->quote_styles&self::ARG_SINGLE_QUOTE ;
++		$end_quote="";
++		$end=0;
++		$this->tree=array('i'=>$this->get_tag_id(''),'p'=>true,'s'=>'');
++		$this->currentNode =& $this->tree;
++		// Init Working Var
++		$next_close=$next_equal=0;
++		$offset=strpos($string,'[');
++		$this->add_child(substr($string,0,$offset));
++		do {
++			$added=false;
++			if ($string[$offset]=='['){
++				if (($string[$offset+1])!='/'){
++					//Open
++					// Equal
++					if ($next_equal<=$offset){
++						if (false===$next_equal=strpos($string,'=',$offset)){
++							$next_equal=$strlen+5;
++						}
++					}
++					if ($next_close<=$offset){
++						if (false===$next_close=strpos($string,']',$offset)){
++							$next_close=$strlen+5;
++						}
++					}
++					if ($next_close<$strlen){
++						// With Arg
++						if ($next_equal<$next_close){
++							$tag=substr($string,$offset+1,$next_equal-$offset-1);
++							if (false!==($tagId=$this->get_tag_id($tag,true))){
++								$argument=false;
++								if ($this->quote_styles>0){
++									$end_quote='';
++									$end=$next_close;
++									if ($quote_single && $string[$next_equal+1]=="'"){
++										$end_quote="'";
++									} elseif ($quote_double && $string[$next_equal+1]=='"') {
++										$end_quote='"';
++									}
++									if ($end_quote==''){
++										$argument=substr($string,$next_equal+1,$next_close-$next_equal-1);
++									} else {
++										if (false!==$end=strpos($string,"$end_quote]",$next_equal+1)){
++											$argument=substr($string,$next_equal+2,$end++ - $next_equal - 2);
++										} else {
++											$end=$strlen+5;
++										}
++									}
++								} else {
++									$argument=substr($string,$next_equal+1,$next_close-$next_equal-1);
++								}
++								if ($argument!==false){
++									$this->add_child(substr($string,$offset,$end-$offset+1),$tagId,$argument);
++									$added=true;
++								}
++							} else {
++								$end=$next_close;
++							}
++						} else {
++							// Without Args
++							$tag=substr($string,$offset+1,$next_close-$offset-1);
++							$end=$next_close;
++							if (false!==($tagId=$this->get_tag_id($tag,false))){
++								$this->add_child(substr($string,$offset,$end-$offset+1),$tagId);
++								$added=true;
++							}
++						}
++					}
++				} else {
++					if ($next_close<=$offset){
++						if (false===($next_close=strpos($string,']',$offset))){;
++						$next_close=$strlen+5;
++						}
++					}
++					//Close
++					$tag=substr($string,$offset+2,$next_close-$offset-2);
++					$end=$next_close;
++					if (false!==($tagId=$this->get_tag_id($tag))){
++						$this->close_tag($tagId,substr($string,$offset,$end-$offset+1));
++						$added=true;
++					}
++				}
++			}
++			if (!$added){
++				$end=strpos($string,'[',$offset+1);
++				if ($end==false){
++					$end=$strlen;
++				} else {
++					--$end;
++				}
++				$this->add_child(substr($string,$offset,$end-$offset+1));
++			}
++			$offset=$end+1;
++		} while($offset<$strlen);
++	}
++
++	/**
++	 * Adds a child to the tree
++	 *
++	 * @param string $string
++	 * @param int $tagId
++	 * @param string $argument
++	 */
++	private function add_child($string,$tagId=null,$argument=null){
++		if ($tagId===null){
++			// Only a textNode => Adding to childs
++			$this->currentNode['c'][]=$string;
++		} else {
++			$tag=$this->tagListCache[$tagId];
++			// Auto Closing some elements
++			if ($tag[4]&BBCode::FLAGS_ONE_OPEN_PER_LEVEL){
++				//Fixme Multiple parents cases
++				$index=array_reverse($this->stackIndex);
++				array_unshift($index,$this->currentNode['i']);
++				$parent_pos=PHP_INT_MAX;
++				foreach($tag[5] as $poss_parent){
++					$parent_pos=min(array_search($poss_parent,$index),$parent_pos);
++				}
++				if (false!==($last_el_pos=array_search($tagId,$index))){
++					if ($parent_pos<$last_el_pos){
++						// Return to parent
++						for($i=0;$i<$parent_pos;++$i){
++							$this->close_tag($index[$i],'',false);
++						}
++					} else {
++						// Close last element
++						$this->close_tag($tagId,'');
++					}
++				}
++			}
++			// Creating Node
++			$new_node=array('i'=>$tagId,'c'=>array(),'s'=>$string,'a'=>$argument===null?'':$argument,'p'=>false);
++			$this->currentNode['c'][] =& $new_node;
++			$this->stack[] =& $this->currentNode;
++			$this->currentNode =& $new_node;
++			$this->stackIndex[]=$tagId;
++			if ($tag[0]==BBCode::TYPE_SINGLE){
++				$this->close_tag($tagId,'');
++			}
++		}
++	}
++
++	/**
++	 * Closes a tag
++	 *
++	 * @param int $tag_id
++	 * @param string $string
++	 * @param boolean $true_close
++	 */
++	private function close_tag($tag_id, $string,$true_close=true){
++		if (in_array($tag_id,$this->toCloseIndex)){
++			$closeIndex = array_search($tag_id, $this->toCloseIndex);
++			$this->toClose[$closeIndex]['p']=true;
++			array_splice($this->toClose,$closeIndex,1);
++			array_splice($this->toCloseIndex,$closeIndex,1);
++		} elseif (in_array($tag_id,$this->stackIndex)){
++			// Tag Open
++			$searching=true;
++			$conds=array();
++			do{
++				if ($this->currentNode['i']==$tag_id){
++					$searching=false;
++					// Mark this node as paired (we found close tag)
++					$this->currentNode['p']=$true_close;
++					$this->currentNode['cs']=$string;
++					$this->currentNode['cond'] =& $conds;
++					if (isset($this->currentNode['mp'])){
++						$this->currentNode['l']=true;
++					}
++					if (!$true_close){
++						$this->toClose[] =& $this->currentNode;
++					}
++				} else {
++					if (!in_array($tag_id,$this->tagListCache[$this->currentNode['i']][6])){
++						$conds[] =& $this->currentNode;
++					}
++					$this->currentNode['cs']='';
++					if ($this->tagListCache[$this->currentNode['i']][4]&BBCode::FLAGS_ONE_OPEN_PER_LEVEL){
++						$this->currentNode['p'] = true;
++					} else {
++						$this->currentNode['p'] = false;
++						$this->toClose[] =& $this->currentNode;
++						$this->toCloseIndex[] = $this->currentNode['i'];
++					}
++				}
++				array_pop($this->stackIndex);
++				$this->currentNode =& $this->stack[count($this->stack)-1];
++				array_pop($this->stack);
++			} while($searching);
++			if ($this->correct_reopen_tags){
++				$new_node = array();
++				for($i=count($this->toClose)-1;$i>=0;--$i){
++					if (!isset($this->toClose[$i]['mp'])){
++						$this->toClose[$i]['d'] = false;
++						$this->toClose[$i]['mp'] = array(& $this->toClose[$i]);
++					}
++					$new_node[$i] = array(
++					'i'=>$this->toClose[$i]['i'],
++					's'=>'', 'cs'=>'',
++					'p'=>& $this->toClose[$i]['p'],
++					'd'=>& $this->toClose[$i]['d'],
++					'mp'=>& $this->toClose[$i]['mp'],
++					'par'=>array()
++					);
++					if (isset($this->toClose[$i]['a'])){
++						$new_node[$i]['a']=$this->toClose[$i]['a'];
++					}
++					$new_node[$i]['mp'][] =& $new_node;
++					for ($j=$i-1;$j>=0;--$j){
++						$new_node[$i]['par'][] =& $this->toClose[$j];
++					}
++					$this->currentNode['c'][] =& $new_node[$i];
++					$this->stack[] =& $this->currentNode;
++					$this->currentNode =& $new_node[$i];
++					$this->stackIndex[] = $this->toClose[$i]['i'];
++				}
++				$this->toCloseIndex=$this->toClose=array();
++			}
++		} else {
++			// Tag Not Open
++			$this->add_child($string);
++		}
++	}
++	/**
++	 * Validates a tree and applying Childs / Parent Rules
++	 *
++	 * @param array $tree
++	 * @param int $parent
++	 * @param boolean $force_false
++	 * @return array
++	 */
++	private function correct_tree(&$tree=null,$parent=0,$force_false=false){
++		/* Getting all options localy to use local symbol table */
++		$restore_tree=false;
++		/* Fetching tree if using object internal tree */
++		if (is_null($tree)){
++			$tree =& $this->tree;
++			$restore_tree=true;
++		}
++		/* fetch auto_correct localy */
++		$ac=$this->auto_correct;
++		/* Starting new tree for corrected version */
++		$new_tree=array();
++		/* fetch tag localy */
++		$tag=$this->tagListCache[$tree['i']];
++		/* Check if parent is in parent_allow_list */
++		if (!in_array($parent,$tag[5])){
++			$force_false=true;
++		}
++		if ($force_false){
++			/* if force_false is enabled, unpair tags */
++			$tree['p']=false;
++		} elseif (isset($tree['i']) && $tag[4]&BBCode::FLAGS_ONE_OPEN_PER_LEVEL){
++			/* If this tag has the special flag ONE_OPEN_PER_LEVEL, force pairing */ 
++			$tree['p']=true;
++		}
++		if (!$ac && !$tree['p']){
++			/* If no auto_correction neither pairing, force false */
++			$force_false=true;
++		}
++		/* Fetch the parent, according to force_false setting */
++		$orig_parent=$parent;
++		$parent=$force_false?$parent:$tree['i'];
++		/* If some elements has some conditions over other elements */
++		if (isset($tree['cond'])){
++			/* searching trough conditions lists */
++			foreach ($tree['cond'] as $element){
++				if (!$element['p']){
++					continue;
++				} else {
++					/* If one condition is paired, this element can not exists */
++					$tree['p']=false;
++				}
++			}
++		}
++		/* Forcing child_list presence */
++		if (!isset($tree['c'])){
++			$tree['c']= array();
++		}
++		/* Browsing child_list for corrections */
++		for($i=0; $i<count($tree['c']);++$i){
++			$child =& $tree['c'][$i];
++			/* Subtree */
++			if (is_array($child)){
++				/* If the child is a multipart and not done */
++				if (isset($child['mp']) && !$child['d']){
++					//Multipart Child
++					foreach($child['mp'] as $child_part){
++						/* TODO Comments */
++						if (is_array($child_part)){
++							if (!isset($child_part['i'])){
++								continue;
++							}
++							/* If one child has parents and if one parent is unpaired mark as unpaired */
++							if (isset($child_part['par'])){
++								for($j=0;$j<count($child_part['par']);++$j){
++									if ($child_part['par'][$j]['p']){
++										continue;
++									}
++									$tree['p']=false;
++									break;
++								}
++							} else {
++								/* Check for mutual inclusion as child else, mark as unpaired */
++								/* TODO: Check if the original way was not parent / child checking */ 
++								if (in_array($child_part['i'],$this->tagListCache[$parent][6])){
++									if (in_array($parent,$this->tagListCache[$child_part['i']][6])){
++										continue;
++									}
++								}
++								$tree['p']=false;
++								break;
++							}
++						}
++					}
++					/* Mark Child as done */
++					$child['d']=true;
++					/* If no autocorrection & unpaired */
++					if (!$ac && !$tree['p']){
++						/* Force False */
++						$force_false=true;
++					}
++					/* Get Parent for allow_list resolv */
++					$parent=$force_false?$orig_parent:$tree['i'];
++					/* Checking allow_list */
++					if (in_array($child['i'], $this->tagListCache[$parent][6])){
++						/* The tag can be a subelement of this one */
++						$return =& $this->correct_tree($child, $parent, false);
++					} else {
++						/* The tag can not be a subelement of this one */
++						$return =& $this->correct_tree($child, $parent, true);
++					}
++				} elseif (in_array($child['i'], $this->tagListCache[$parent][6])){
++					/* The tag can be a subelement of this one */
++					$return =& $this->correct_tree($child, $parent, false);
++				} else {
++					/* The tag cannot be a subelement of this one */
++					$return =& $this->correct_tree($child, $parent, true);
++				}
++				/* Appending return(s) to new_tree */
++				array_splice($new_tree, count($new_tree), 0, $return);
++			} else {
++				/* String */
++				$new_tree[] =& $child;
++			}
++		}
++		if (!$force_false && ($tree['p'] || $ac)){
++			/* If tree is correct or autocorrection is ON */
++			/* Replace Child List with corrected one */
++			$tree['c'] =& $new_tree;
++			// Multipart_Join
++			/* Return data */
++			if ($restore_tree){
++				$tree['c'] =& $new_tree;
++			} else {
++				return array(&$tree);
++			}
++		} else {
++			/* If force false or no autocorrection and unpaired tag */
++			if ($force_false){
++				/* If force false flag is set, force unpair */
++				$tree['p']=false;
++			}
++			/* prepend the current open String to corrected Child_list */
++			array_unshift($new_tree,$tree['s']);
++			/* append the closing string to corrected child list */
++			$new_tree[] =& $tree['cs'];
++			/* Return data */
++			if ($restore_tree){
++				$this->tree =& $new_tree;
++			} else {
++				return $new_tree;
++			}
++		}
++	}
++	/**
++	 * Apply the ruleset to transform BBCode tree to Markup
++	 *
++	 * @param array $tree
++	 * @return string
++	 */
++	private function apply_rules($tree){
++		//Fetch datas locally - Performance
++		$default_smileys=$this->default_smileys;
++		$auto_correct=$this->auto_correct;
++		$string="";
++		$tag=array();
++		if (isset($tree['i'])){
++			$tag=$this->tagListCache[$tree['i']];
++		}
++		$last_string='';
++		for ($i=0;$i<count($tree['c']);++$i){
++			if (is_array($tree['c'][$i]) && isset($tree['c'][$i]['mp'])){
++				for($j=$i+1;$j<count($tree['c']);++$j){
++					if (is_array($tree['c'][$j]) && isset($tree['c'][$j]['mp'])){
++						$tree['c'][$j]['mp'][0]['ref_test_key']='TEST';
++						if (isset($tree['c'][$i]['mp'][0]['ref_test_key'])){
++							for ($k=$i+1;$k<$j;++$k){
++								$tree['c'][$i]['c'][] =& $tree['c'][$k];
++							}
++							for ($k=0;$k<count($tree['c'][$j]['c']);++$k){
++								$tree['c'][$i]['c'][] =& $tree['c'][$j]['c'][$k];
++							}
++							$tree['c'][$i]['cs']=$tree['c'][$j]['cs'];
++							unset($tree['c'][$j]['mp'][0]['ref_test_key']);
++							array_splice($tree['c'],$i+1,$j-$i);
++							$i=0;
++							continue 2;
++						} else {
++							unset($tree['c'][$j]['mp'][0]['ref_test_key']);
++							break;
++						}
++					}
++				}
++			}
++		}
++		foreach($tree['c'] as $child){
++			if (is_array($child)){
++				//Make a one block treatment for smileys
++				if (strlen($last_string)){
++					if (!$this->force_smileys_off && $tag[15]){
++						$string.=$this->smileys($last_string);
++					} else {
++						$string.=$last_string;
++					}
++				}
++				$string.=$this->apply_rules($child);
++				$last_string='';
++			} else {
++				//Concat String for Smiley treatment
++				$last_string.=$child;
++			}
++		}
++		//Make a one block treatment for smileys
++		if (strlen($last_string)){
++			if (!$this->force_smileys_off && $tag[15]){
++				$string.=$this->smileys($last_string);
++			} else {
++				$string.=$last_string;
++			}
++		}
++		if (!($auto_correct || $tree['p'] || ($tag[4]&BBCode::FLAGS_ONE_OPEN_PER_LEVEL))){
++			return ($tree['s']).$string;
++		} else {
++			$start=$tag[1];
++			$end=$tag[2];
++
++			$arg='';
++			if ($tag[11]){
++				if ($tree['a']!=''){
++					$arg=$tree['a'];
++				} else {
++					$arg=$tag[3];
++				}
++				if ($tag[4] & BBCode::FLAGS_ARG_PARSING){
++					if ($this->arg_parser!==null){
++						$arg=$this->arg_parser->parse($arg);
++					} else {
++						$arg=$this->parse($arg);
++					}
++				}
++			}
++			/* Search For CallBacks */
++			if ($cb=$this->get_callback($tree['i'],true)){
++				$arg=$cb($string,$arg);
++			}
++			if ($cb=$this->get_callback($tree['i'],false)){
++				$string=$cb($string,$arg);
++			}
++			/* Replacing {ARG} by $arg and {CONTENT} by $string in arg & start */
++			$arg =str_replace("{CONTENT}",$string,$arg);
++			if ($tag[13]){
++				$start=str_replace("{CONTENT}",$string,$start);
++				$start=str_replace("{ARG}",$arg,$start);
++			}
++
++			/* Replacing {ARG} by $arg in string & end */
++			$string =str_replace("{ARG}",$arg,$string);
++			if ($tag[14]){
++				$end=str_replace("{ARG}",$arg,$end);
++			}
++
++			return $start.$string.$end;
++		}
++	}
++	/**
++	 * Returns a callback for a tag_id
++	 * 
++	 * @param int $tagid
++	 * @param bolean $is_arg
++	 * @return callback
++	 */
++	private function get_callback($tagid,$is_arg){
++		$tag = $this->tagListCache[$tagid];
++		if ($is_arg){
++			if ($tag[10]===null){
++				$this->tagListCache[$tagid][10]=is_callable($tag[9])?$tag[9]:false;
++			}
++			return $this->tagListCache[$tagid][10];
++		} else {
++			if ($tag[8]===null){
++				$this->tagListCache[$tagid][8]=is_callable($tag[7])?$tag[7]:false;
++			}
++			return $this->tagListCache[$tagid][8];
++		}
++	}
++	/**
++	 * Treats smileys
++	 * 
++	 * @param string $smileys
++	 * @return string
++	 */
++	private function smileys($string){
++		$keys=array_keys($this->smileys);
++		return str_replace($keys,$this->smileys,$string);
++	}
++	/**
++	 * Returns a tag_id from his name (tag_id is internal)
++	 * 
++	 * @param string $tag_name
++	 * @param boolean $has_args
++	 * @return string
++	 */
++	private function get_tag_id($tag_name, $has_arg=null){
++		$tag_name=strtolower($tag_name);
++		if (isset($this->tagListIndex[$tag_name])){
++			$tag_id=$this->tagListIndex[$tag_name];
++			if ($has_arg===null){
++				return $tag_id;
++			} elseif ($has_arg===false){
++				if ($this->tagListCache[$tag_id][12]===true){
++					return $tag_id;
++				}
++			} else {
++				if ($this->tagListCache[$tag_id][11]===true){
++					return $tag_id;
++				}
++			}
++		}
++		return false;
++	}
++}
++$arrayBBCode=array(
++''=>		array('open_tag'=>'',	'close_tag'=>'', 'type'=>BBCode::TYPE_ROOT),
++'b'=>		array('type'=>BBCode::TYPE_NOARG,	'childs'=>'all',	'open_tag'=>'<b>',											'close_tag'=>'</b>'),
++'u'=>		array('type'=>BBCode::TYPE_NOARG,	'childs'=>'all',	'smileys'=>false,	'open_tag'=>'<u>',											'close_tag'=>'</u>'),
++'i'=>		array('type'=>BBCode::TYPE_NOARG,	'childs'=>'all',	'open_tag'=>'<i>',											'close_tag'=>'</i>'),
++'code'=>	array('type'=>BBCode::TYPE_NOARG,	'childs'=>'u',		'open_tag'=>'<code>',					'close_tag'=>'</code>'),
++'m'=>		array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<a href="/maraboutage.php">',					'close_tag'=>'</a>'),
++'cap'=>		array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<span style="text-transform:capitalize;">',	'close_tag'=>'</span>'),
++'mini'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<span class="mini">',							'close_tag'=>'</span>'),
++'right'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<div style="text-align:right;">',				'close_tag'=>'</div>'),
++'center'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<div style="text-align:center;">',				'close_tag'=>'</div>'),
++'just'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<div style="text-align:justify;width:450px;margin:0 auto;">',				'close_tag'=>'</div>'),
++'strike'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<span style="text-decoration:line-through;">',	'close_tag'=>'</span>'),
++'ancre'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<a name="',									'close_tag'=>'"> &nbsp;</a>'),
++'moumou'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<img src="',									'close_tag'=>'" />'),
++'round'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'<div style="border:2px double white;border-radius: 8px; padding:6px; -moz-border-radius: 8px; background-color:#000; color:#FFF;">',	'close_tag'=>'</div>'),
++'hide'=>	array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'',												'close_tag'=>'',											'content_handling'=>'BBVoid'),
++'np'=>		array('type'=>BBCode::TYPE_NOARG,						'open_tag'=>'',												'close_tag'=>''),
++'quote'=>	array('type'=>BBCode::TYPE_OPTARG,	'flags'=>BBCode::FLAGS_ARG_PARSING ,	'open_tag'=>'<fieldset><legend>{ARG}</legend>',				'close_tag'=>'</fieldset>',	'default_arg'=>'Citation'),
++'id'=>		array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'',												'close_tag'=>'',			'default_arg'=>'{SELF}',		'content_handling'=>'BBId2User'),
++'msg'=>		array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'',												'close_tag'=>'',			'default_arg'=>'{SELF}',		'content_handling'=>'BBId2Msg'),
++'url'=>		array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'<a href="{ARG}">',								'close_tag'=>'</a>',		'default_arg'=>'{CONTENT}',		'arg_handling'=>'validate_url'),
++'img'=>		array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'<img src="{ARG}" alt="',						'close_tag'=>'" />',		'default_arg'=>'{CONTENT}'),
++'mail'=>	array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'<a href="mailto:{ARG}">',						'close_tag'=>'</a>',		'default_arg'=>'{CONTENT}'),
++'border'=>	array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'<div style="border:{ARG}px solid;">',			'close_tag'=>'</div>',		'default_arg'=>'5'),
++'list'=>	array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'<ol type="{ARG}">',							'close_tag'=>'</ol>',		'default_arg'=>'1',				'content_handling'=>'BBlist'),
++'*'	=>		array('type'=>BBCode::TYPE_NOARG,	'flags'=>BBCode::FLAGS_ONE_OPEN_PER_LEVEL,'parents'=>'list',	'open_tag'=>'<li>',					'close_tag'=>'</li>',),
++'col'=>		array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'<div style="-moz-column-count:{ARG}; text-align:justify;-moz-column-gap:8px;">',	'close_tag'=>'</div>',		'default_arg'=>'2'),
++'hexdump'=>	array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'[Hex Dump]<br />',								'close_tag'=>'',			'default_arg'=>'0x345622',		'content_handling'=>'BBHexDump'),
++'bcktrc'=>	array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'',												'close_tag'=>'',			'default_arg'=>'0x345622',		'content_handling'=>'BBBackTrace'),
++'bong'=>	array('type'=>BBCode::TYPE_OPTARG,	'arg_parse'=>false,	'open_tag'=>'<div id="{ARG}">',								'close_tag'=>'</div><script type="text/javascript">new OngletsBlock(\'{ARG}\');</script>','default_arg'=>'Fiche'),
++'onglet'=>	array('type'=>BBCode::TYPE_ARG,		'arg_parse'=>false,	'open_tag'=>'<h4>{ARG}</h4><div title="{ARG}" closable="true" style="clear:both;">','close_tag'=>'</div>','default_arg'=>'Default'),
++'color'=>	array('type'=>BBCode::TYPE_ARG,		'arg_parse'=>false,	'open_tag'=>'<span style="color:{ARG}">',					'close_tag'=>'</span>'),
++'size'=>	array('type'=>BBCode::TYPE_ARG,		'arg_parse'=>false,	'open_tag'=>'<span style="font-size:{ARG}px;">',			'close_tag'=>'</span>'),
++'goto'=>	array('type'=>BBCode::TYPE_ARG,		'arg_parse'=>false,	'open_tag'=>'<a href="#{ARG}" onmouseover="this.href=document.location.href.replace(/#.*/img ,\'\')+\'#{ARG}\'">', 'close_tag'=>'</a>'),
++'fade'=>	array('type'=>BBCode::TYPE_ARG,		'arg_parse'=>false,	'open_tag'=>'',												'close_tag'=>'',											'content_handling'=>'BBDegrade'),
++'wave'=>	array('type'=>BBCode::TYPE_ARG,		'arg_parse'=>false,	'open_tag'=>'',												'close_tag'=>'',											'content_handling'=>'BBWave'),
++'barre'=>	array('type'=>BBCode::TYPE_SINGLE,						'open_tag'=>'<hr />'),
++);
++$bbcode=new BBCode($arrayBBCode,array(':)'=>'\\o/',':|'=>'/o\\'));
++$bbcode->auto_correct=false;
++$bbcode->correct_reopen_tags=true;
++$time=microtime(true);
++$string=<<<EOF
++[list][*]List[list][*]SubList[/list][/list]
++EOF;
++echo $bbcode->parse($string)."\n";
++$val[]=microtime(true)-$time;
++echo (microtime(true)-$time)."\n";
++$time=microtime(true);
++$string=<<<EOF
++UUU[quote="[u]:) :|UUU[/u]"][b]:)Te[b]st[/b][/quote]AAAAA
++[LIST=0][*]Test
++TEst
++[*][list=a][*]Coucou
++[/list]
++[/list]
++EOF;
++echo $bbcode->parse($string)."\n";
++$val[]=microtime(true)-$time;
++echo (microtime(true)-$time)."\n";
++$time=microtime(true);
++$string=<<<EOF
++[b][u]Hello[/b] W[i]o[b]r [b]ld[/u] Coucou[/i] Vro[/b] Vroum
++EOF;
++echo $bbcode->parse($string)."\n";
++$val[]=microtime(true)-$time;
++echo (microtime(true)-$time)."\n";
++$time=microtime(true);
++$string=<<<EOF
++[list][*]List[list][*]SubList[*]element2[list][*]SubSubList[/list][/list][*]element 3[/list]
++EOF;
++echo $bbcode->parse($string)."\n";
++$val[]=microtime(true)-$time;
++echo (microtime(true)-$time)."\n";
++$time=microtime(true);
++$string=<<<EOF
++[list][*]List[list][*]SubList[/list][/list]
++EOF;
++echo $bbcode->parse($string)."\n";
++$val[]=microtime(true)-$time;
++echo (microtime(true)-$time)."\n";
++$time=microtime(true);
++$string=<<<EOF
++[b]Test[u]Test[b] [i] Glup [u] [*][*][barre][i]Glop[/i] [/u][/i]Zop[/b] [/u][/b]
++EOF;
++echo $bbcode->parse($string)."\n";
++$val[]=microtime(true)-$time;
++echo (microtime(true)-$time)."\n";
++$time=microtime(true);
++//$bbcode->noTreeBuild=true;
++$bbcode->default_smileys=true;
++$string=<<<EOF
++[b][i] [code] [u][/i][/b][b][/u] [/code] [u] Test [/b][/u]
++EOF;
++echo $bbcode->parse($string)."\n";
++$val[]=microtime(true)-$time;
++echo (microtime(true)-$time)."\n";
++echo array_sum($val);
+\ No newline at end of file
+
+Property changes on: bbcode.php
+___________________________________________________________________
+Added: svn:eol-style
+   + native
+Added: svn:keywords
+   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+Added: cvs2svn:cvs-rev
+   + 1.4
+
+Index: config.m4
+===================================================================
+--- config.m4	(.../tags/RELEASE_1_0_2)
++++ config.m4	(.../trunk)
+@@ -7,7 +7,7 @@
+ 
+ if test "$PHP_BBCODE" = "yes"; then
+   AC_DEFINE(HAVE_BBCODE,1,[Whether you want BBCode support])
++  PHP_NEW_EXTENSION(bbcode, php_bbcode.c lib/bstrlib.c lib/bbcode2.c, $ext_shared,, "-I@ext_srcdir@/lib")
+   PHP_ADD_BUILD_DIR(lib)
+-  PHP_NEW_EXTENSION(bbcode, php_bbcode.c lib/bstrlib.c lib/bbcode2.c, $ext_shared, , "-I@ext_srcdir@/lib")
+ fi
+ 
+
+Property changes on: config.m4
+___________________________________________________________________
+Modified: cvs2svn:cvs-rev
+   - 1.4
+   + 1.5
+
+Index: lib/bbcode2.c
+===================================================================
+--- lib/bbcode2.c	(.../tags/RELEASE_1_0_2)
++++ lib/bbcode2.c	(.../trunk)
+@@ -95,6 +95,8 @@
+ /* Parse a BBCoded string to is treated equivalent */
+ char *bbcode_parse(bbcode_parser_p parser, char *string, int string_size,
+ 		int *result_size) {
++	char *return_value;
++
+ 	bstring to_parse = NULL;
+ 	bstring parsed = NULL;
+ 	to_parse=bfromcstr("");
+@@ -103,9 +105,10 @@
+ 	if (parser->options & BBCODE_DISABLE_TREE_BUILD) {
+ 		/* No BBCode Parsing */
+ 		if (parser->options & BBCODE_FORCE_SMILEYS_OFF) {
++			char *return_value=(char *)malloc(string_size * sizeof(char));
++
+ 			/* No Smiley Treatment */
+ 			*result_size=string_size;
+-			char *return_value=(char *)malloc(string_size * sizeof(char));
+ 			return memcpy(return_value, string, string_size);
+ 		}
+ 		/* Prepare Datas for smiley */
+@@ -115,12 +118,14 @@
+ 		/* Smiley Parsing */
+ 		bbcode_parse_smileys(to_parse, parser->smileys);
+ 	} else {
++		/*  starting the tree */
++		bbcode_parse_tree_p tree = bbcode_tree_create();
++
+ 		/* Prepare Datas for parsing */
+ 		balloc(to_parse, string_size+5);
+ 		to_parse->slen=string_size;
+ 		memcpy(to_parse->data, string, string_size);
+-		/*  starting the tree */
+-		bbcode_parse_tree_p tree = bbcode_tree_create();
++
+ 		/* Preparing tag_list if needed */
+ 		bbcode_prepare_tag_list(parser);
+ 		/* Build the BBCode Tree from the string */
+@@ -136,7 +141,7 @@
+ 	}
+ 	/* Getting the return string */
+ 	*result_size=to_parse->slen;
+-	char *return_value=(char *)malloc(*result_size * sizeof(char)+1);
++	return_value=(char *)malloc(*result_size * sizeof(char)+1);
+ 	return_value=memcpy(return_value, to_parse->data, to_parse->slen+1);
+ 	bdestroy(to_parse);
+ 	bdestroy(parsed);
+@@ -173,6 +178,8 @@
+ 	struct bstrList *bsplited;
+ 	char accept_smileys;
+ 	char default_smileys;
++	int i, j, max;
++
+ 	accept_smileys=1;
+ 	if (parser->options & BBCODE_FORCE_SMILEYS_OFF) {
+ 		accept_smileys=0;
+@@ -181,7 +188,7 @@
+ 	if (parser->options & BBCODE_DEFAULT_SMILEYS_ON) {
+ 		default_smileys=1;
+ 	}
+-	int i, j, max;
++
+ 	max=0;
+ 	list=parser->bbcodes;
+ 	/* Resolve cache preparation */
+@@ -211,8 +218,11 @@
+ 		list->search_cache[i]=NULL;
+ 	}
+ 	for (i=0; i<bbcode_array_length(list->bbcodes); i++) {
++		int slen;
++		bbcode_search temp;
++
+ 		bbcode=bbcode_get_bbcode(parser, i);
+-		int slen=blength(bbcode->tag);
++		slen=blength(bbcode->tag);
+ 		if (list->search_cache[slen]==NULL) {
+ 			list->search_cache[slen]
+ 					=(bbcode_search_p) malloc(sizeof(bbcode_search));
+@@ -220,7 +230,7 @@
+ 			list->search_cache[slen]=(bbcode_search_p) realloc(
+ 					list->search_cache[slen], sizeof(bbcode_search) * (list->num_cache[slen]+1));
+ 		}
+-		bbcode_search temp;
++
+ 		temp.tag_name=bbcode->tag;
+ 		temp.tag_id=i;
+ 		list->search_cache[slen][list->num_cache[slen]]=temp;
+@@ -239,6 +249,7 @@
+ 			/* All Accepted */
+ 			list->root->childs->type=BBCODE_ALLOW_LIST_TYPE_ALL;
+ 		} else {
++			long find;
+ 			bstring work = bstrcpy(list->root->child_list);
+ 			if ((bchar(list->root->child_list, 0) == '!') == 1) {
+ 				list->root->childs->type=BBCODE_ALLOW_LIST_TYPE_EXCLUDE;
+@@ -249,7 +260,7 @@
+ 			}
+ 			/* We add all entries */
+ 			bsplited=bsplit (work, ',');
+-			long find;
++
+ 			bbcode_allow_list_check_size(list->root->childs, bsplited->qty);
+ 			for (j=0; j<bsplited->qty; j++) {
+ 				find = bbcode_get_tag_id (parser, bsplited->entry[j], -1);
+@@ -294,6 +305,8 @@
+ 				/* All Accepted */
+ 				bbcode->parents->type=BBCODE_ALLOW_LIST_TYPE_ALL;
+ 			} else {
++				long find;
++
+ 				bstring work = bstrcpy(bbcode->parent_list);
+ 				if (bchar(bbcode->parent_list, 0) == '!') {
+ 					bbcode->parents->type=BBCODE_ALLOW_LIST_TYPE_EXCLUDE;
+@@ -303,7 +316,7 @@
+ 				}
+ 				/* We add all entries */
+ 				bsplited=bsplit (work, ',');
+-				long find;
++
+ 				bbcode_allow_list_check_size(bbcode->parents, bsplited->qty);
+ 				for (j=0; j<bsplited->qty; j++) {
+ 					find = bbcode_get_tag_id (parser, bsplited->entry[j], -1);
+@@ -324,6 +337,8 @@
+ 				/* All Accepted */
+ 				bbcode->childs->type=BBCODE_ALLOW_LIST_TYPE_ALL;
+ 			} else {
++				long find;
++
+ 				bstring work=bstrcpy(bbcode->child_list);
+ 				if (bchar(bbcode->child_list, 0) == '!') {
+ 					bbcode->childs->type=BBCODE_ALLOW_LIST_TYPE_EXCLUDE;
+@@ -333,7 +348,7 @@
+ 				}
+ 				/* We add all entries */
+ 				bsplited=bsplit (work, ',');
+-				long find;
++
+ 				bbcode_allow_list_check_size(bbcode->childs, bsplited->qty);
+ 				for (j=0; j<bsplited->qty; j++) {
+ 					find = bbcode_get_tag_id (parser, bsplited->entry[j], -1);
+@@ -367,6 +382,8 @@
+ 	int offset, end, next_equal, next_close, string_length;
+ 	long tag_id;
+ 	int quote_enabled=(quote_double || quote_single || quote_html);
++	bbcode_parse_tree_array_p work_stack = NULL, close_stack = NULL;
++
+ 	string_length=blength(string);
+ 	tag_id=end=next_equal=next_close=0;
+ 	end_double=bfromcstr("\"]");
+@@ -376,7 +393,6 @@
+ 	/* END INIT */
+ 	offset=bstrchr(string, '[');
+ 	bbcode_tree_push_string_child(tree, bmidstr(string, 0, offset), offset);
+-	bbcode_parse_tree_array_p work_stack = NULL, close_stack = NULL;
+ 	work_stack=bbcode_parse_stack_create();
+ 	bbcode_parse_stack_push_element(work_stack,tree);
+ 	close_stack=bbcode_parse_stack_create();
+@@ -398,9 +414,11 @@
+ 										1))) {
+ 							/* Quotes */
+ 							if (quote_enabled) {
++								int diff=0;
++
+ 								end=next_close;
+ 								no_quote=0;
+-								int diff=0;
++
+ 								if (quote_single && bchar(string, next_equal+1)
+ 									=='\'') {
+ 									end_quote=end_single;
+@@ -445,8 +463,6 @@
+ 									} else {
+ 										/* No Ending Quote, go to next tag */
+ 										end=next_equal+diff;
+-										bdestroy(argument);
+-										argument=NULL;
+ 									}
+ 								}
+ 							} else {
+@@ -465,6 +481,7 @@
+ 															+1), tag_id,
+ 											argument, offset);
+ 									bdestroy(argument);
++									argument=NULL;
+ 									end=next_close;
+ 									added=1;
+ 								}
+@@ -659,6 +676,8 @@
+ 		long parent_id, char force_false) {
+ 	int autocorrect, orig_parent, ret;
+ 	long i,j;
++	bbcode_parse_tree_child_p child = NULL;
++
+ 	bbcode_p tag= bbcode_get_bbcode(parser,tree->tag_id);
+ 	/* Options */
+ 	autocorrect = parser->options & BBCODE_AUTO_CORRECT;
+@@ -687,7 +706,7 @@
+ 			}
+ 		}
+ 	}
+-	bbcode_parse_tree_child_p child = NULL;
++
+ 	for (i = 0; i < tree->childs.size ; i++) {
+ 		child=(tree->childs.element[i]);
+ 		if (child->type==BBCODE_TREE_CHILD_TYPE_TREE) {
+@@ -796,13 +815,16 @@
+ 	bstring last_string = NULL;
+ 	bstring tmp_string = NULL;
+ 	long i;
++	bbcode_parse_tree_p to_drop = NULL;
++	bstring arg, content;
++
+ 	last_string=bfromcstr("");
+ 	tmp_string=bfromcstr("");
+ 	working_string=bfromcstr("");
+ 	/* Dropped elements */
+-	bbcode_parse_tree_p to_drop = NULL;
++
+ 	to_drop=bbcode_tree_create();
+-	bstring arg, content;
++
+ 	content=arg=NULL;
+ 	/* Multipart Merging */
+ 	for (i=0 ; i < tree->childs.size; i++) {
+@@ -977,14 +999,16 @@
+ 					}
+ 				}
+ 			} else {
++				long left=0;
++				long right=count-1;
++				long i=count/2;
++				long equal, pos;
++
+ 				bstring lower_tag = NULL;
+ 				lower_tag=bstrcpy(value);
+ 				btolower(lower_tag);
+ 				/* We start true binary */
+-				long left=0;
+-				long right=count-1;
+-				long i=count/2;
+-				long equal, pos;
++
+ 				while (1) {
+ 					equal=bstrcmp(lower_tag, list[i].tag_name);
+ 					if (equal==0) {
+@@ -1450,8 +1474,9 @@
+ /* Insert a given child on a given position */
+ void bbcode_tree_insert_child_at(bbcode_parse_tree_p tree,
+ 		bbcode_parse_tree_child_p bbcode_parse_tree_child, long pos) {
++	long size;
+ 	bbcode_tree_check_child_size(tree, tree->childs.size+1);
+-	long size=sizeof(bbcode_parse_tree_child_p);
++	size=sizeof(bbcode_parse_tree_child_p);
+ 	memmove(&(tree->childs.element[pos+1]), 
+ 			&(tree->childs.element[pos]), size*(tree->childs.size-pos-1));
+ 	tree->childs.element[pos]=bbcode_parse_tree_child;
+@@ -1552,8 +1577,9 @@
+ /* Remove element from the Tree array @ index */
+ void bbcode_parse_drop_element_at(bbcode_parse_tree_array_p stack, long index) {
+ 	if (index<stack->size) {
++		long i;
+ 		stack->size--;
+-		long i;
++
+ 		for(i=index;i<stack->size;i++){
+ 			stack->element[i]=stack->element[i+1];
+ 		}
+
+Property changes on: lib/bbcode2.c
+___________________________________________________________________
+Modified: cvs2svn:cvs-rev
+   - 1.25
+   + 1.27
+
+Index: lib/bbcode2.h
+===================================================================
+--- lib/bbcode2.h	(.../tags/RELEASE_1_0_2)
++++ lib/bbcode2.h	(.../trunk)
+@@ -75,10 +75,11 @@
+ #define bbcode_array_element(array, pos)    ((((unsigned)(pos)) < (unsigned)bbcode_array_length(array)) ? ((array)->element[(pos)]) : NULL)
+ #define bbcode_find_next(to_update,string,offset,char) if (to_update <= offset){ if (0>(to_update = bstrchrp( string, char, offset))){ to_update = blength( string )+5; } }
+ #define BBCODE_SPECIAL_CASE_NO_CHILD(argument) \
++    int sc_offset; \
+     bstring close_tag=bfromcstr("[/"); \
+     bconcat(close_tag,tag); \
+     bcatcstr(close_tag,"]"); \
+-    int sc_offset=binstrcaseless(string, next_close, close_tag); \
++    sc_offset=binstrcaseless(string, next_close, close_tag); \
+     if (sc_offset!=BSTR_ERR){ \
+         bbcode_tree_push_tree_child(parser, bbcode_get_cn(parser), work_stack, close_stack, bmidstr(string, offset, end-offset+1),tag_id, argument, offset); \
+         bbcode_tree_push_string_child(bbcode_get_cn(parser), bmidstr(string,next_close+1,sc_offset-next_close-1), offset+next_close+1); \
+
+Property changes on: lib/bbcode2.h
+___________________________________________________________________
+Modified: cvs2svn:cvs-rev
+   - 1.18
+   + 1.19
+
+
+Property changes on: lib
+___________________________________________________________________
+Added: svn:ignore
+   + .deps
+Makefile
+*.lo
+*.loT
+*.slo
+*.mk
+*.la
+.libs
+libs.mk
+ac*.m4
+build
+config.h
+config.h.in
+config.nice
+config.sub
+configure
+configure.in
+config.status
+config.cache
+conftest
+conftest.c
+core
+dynlib.m4
+install-sh
+ltmain.sh
+include
+Makefile.fragments
+Makefile.global
+Makefile.objects
+missing
+mkinstalldirs
+modules
+scan_makefile_in.awk
+config.guess
+*swp
+config.log
+libtool
+Debug
+Release
+Debug_TS
+Release_TS
+*.plg
+*.patch
+*.tgz
+*.ncb
+*.opt
+*.dsw
+autom4te.cache
+run-tests-config.php
+run-tests.php
+
+
+Index: php_bbcode.c
+===================================================================
+--- php_bbcode.c	(.../tags/RELEASE_1_0_2)
++++ php_bbcode.c	(.../trunk)
+@@ -2,7 +2,7 @@
+   +----------------------------------------------------------------------+
+   | PHP Version 5                                                        |
+   +----------------------------------------------------------------------+
+-  | Copyright (c) 1997-2007 The PHP Group                                |
++  | Copyright (c) 1997-2008 The PHP Group                                |
+   +----------------------------------------------------------------------+
+   | This source file is subject to version 3.01 of the PHP license,      |
+   | that is bundled with this package in the file LICENSE, and is        |
+@@ -14,9 +14,10 @@
+   +----------------------------------------------------------------------+
+   | Author: Xavier De Cock <void@php.net>                                |
+   +----------------------------------------------------------------------+
++*/
+ 
+-  $Id$ 
+-*/
++/* $Id$ */
++
+ #ifdef HAVE_CONFIG_H
+ #include "config.h"
+ #endif
+@@ -27,74 +28,31 @@
+ #include "lib/bbcode2.h"
+ #include "lib/bstrlib.h"
+ 
+-#if Void_0
+-typedef struct _bbcode_object {
+-	zend_object     std;
+-	int 			rsrc_id;
+-} bbcode_object;
+-#endif
++static int le_bbcode;
+ 
+-int le_bbcode;
+-static function_entry bbcode_functions[] = {
+-	PHP_FE(bbcode_create, NULL)
+-	PHP_FE(bbcode_add_element, NULL)
+-	PHP_FE(bbcode_destroy, NULL)
+-	PHP_FE(bbcode_parse, NULL)
+-	PHP_FE(bbcode_add_smiley, NULL)
+-	PHP_FE(bbcode_set_flags, NULL)
+-	PHP_FE(bbcode_set_arg_parser, NULL)
+-	{NULL, NULL, NULL}
+-};
++#define PHP_BBCODE_CONTENT_CB 1
++#define PHP_BBCODE_PARAM_CB   2
+ 
+-#if Void_0
+-/* Object Part, working on it */
+-zend_function_entry bbcode_funcs_object[] = {
+-	PHP_ME_MAPPING(__construct, bbcode_create, NULL,0)
+-	PHP_ME_MAPPING(addElement, bbcode_add_element, NULL,0)
+-	PHP_ME_MAPPING(destroy, bbcode_destroy, NULL,0)
+-	PHP_ME_MAPPING(parse, bbcode_parse, NULL,0)
+-	{NULL, NULL, NULL}
+-};
+-#endif
+-
+-zend_module_entry bbcode_module_entry = {
+-#if ZEND_MODULE_API_NO >= 20010901
+-	STANDARD_MODULE_HEADER,
+-#endif
+-	PHP_BBCODE_EXTNAME,
+-	bbcode_functions,
+-	PHP_MINIT(bbcode),
+-	NULL,
+-	NULL,
+-	NULL,
+-	PHP_MINFO(bbcode),
+-#if ZEND_MODULE_API_NO >= 20010901
+-	PHP_BBCODE_VERSION,
+-#endif
+-	STANDARD_MODULE_PROPERTIES
+-};
+-
+-#ifdef COMPILE_DL_BBCODE
+-ZEND_GET_MODULE(bbcode)
+-#endif
+-
+-/* {{{ _php_bbcode_handling_content */
+-/* Start user functions callback */
+-int _php_bbcode_handling_content(bstring content, bstring param, void *datas){
++/* {{{ _php_bbcode_callback_handler
++   Common code for content and parameter handlers */
++static int _php_bbcode_callback_handler(int cb_type, bstring content, bstring param, zval *func_name)
++{
+ 	zval *retval = NULL;
+ 	zval ***zargs = NULL;
+-	zval **funcname;
++	char *callable = NULL;
+ 	int i, res;
+-	char *callable = NULL, *errbuf=NULL;
+-	funcname = ((zval **) datas);
++	bstring target;
++	char *cb_name = "";
+ 	TSRMLS_FETCH();
+ 
+-	if (!zend_is_callable(*funcname, 0, &callable)) {
+-		spprintf(&errbuf, 0, "function `%s' is not a function name", callable);
+-		zend_error(E_WARNING, "[BBCode] (_php_bbcode_handling_content) %s", errbuf);
+-		efree(errbuf);
+-		efree(callable);
+-		return 0;
++	switch (cb_type) {
++		case PHP_BBCODE_CONTENT_CB:
++			target = content;
++			break;
++
++		case PHP_BBCODE_PARAM_CB:
++			target = param;
++			break;
+ 	}
+ 
+ 	zargs = (zval ***) emalloc(sizeof(zval **) * 2);
+@@ -105,223 +63,218 @@
+ 	MAKE_STD_ZVAL(*zargs[1]);
+ 	ZVAL_STRINGL(*zargs[1], bdata(param), blength(param), 1);
+ 
+-	res = call_user_function_ex(EG(function_table), NULL, *funcname, &retval, 2, zargs, 1, NULL TSRMLS_CC);
+-
+-	if (res == SUCCESS) {
+-		if (zargs) {
+-			for (i = 0; i < 2; i++) {
+-				zval_ptr_dtor(zargs[i]);
+-				efree(zargs[i]);
+-			}
+-			efree(zargs);
++	res = call_user_function_ex(EG(function_table), NULL, func_name, &retval, 2, zargs, 1, NULL TSRMLS_CC);
++	
++	if (res != SUCCESS) {
++		if (!zend_is_callable(func_name, 0, &callable TSRMLS_CC)) {
++			php_error_docref(NULL TSRMLS_CC, E_WARNING, "function `%s' is not callable", callable);
++		} else {
++			php_error_docref(NULL TSRMLS_CC, E_WARNING, "callback function %s() failed", callable);
+ 		}
+-	} else {
+-		zend_error(E_WARNING, "[BBCode] (_php_bbcode_handling_content) call_user_function_ex failed for function %s()", callable);
+-	}
+-	efree(callable);
+-	if (&retval) {
++		efree(callable);
++	} else if (&retval != NULL) {
+ 		convert_to_string_ex(&retval);
+-		if(Z_STRLEN_P(retval)){
+-			bassignblk(content,Z_STRVAL_P(retval), Z_STRLEN_P(retval));
++		if (Z_STRLEN_P(retval)) {
++			bassignblk(target, Z_STRVAL_P(retval), Z_STRLEN_P(retval));
+ 		} else {
+-			bdelete(content,0,blength(content));
++			bdelete(target, 0, blength(target));
+ 		}
+ 		zval_ptr_dtor(&retval);
+ 	}
++
++	/* Free zargs */
++	for (i = 0; i < 2; i++) {
++		zval_ptr_dtor(zargs[i]);
++		efree(zargs[i]);
++	}
++	efree(zargs);
++
+ 	return 0;
+ }
+ /* }}} */
+-/* {{{ _php_bbcode_handling_param */
+-int _php_bbcode_handling_param(bstring content, bstring param, void *datas){
+-	zval *retval = NULL;
+-	zval ***zargs = NULL;
+-	zval **funcname;
+-	int i, res;
+-	char *callable = NULL, *errbuf=NULL;
+-	funcname = ((zval **) datas);
+-	TSRMLS_FETCH();
+ 
+-	if (!zend_is_callable(*funcname, 0, &callable)) {
+-		spprintf(&errbuf, 0, "function `%s' is not a function name", callable);
+-		zend_error(E_WARNING, "[BBCode] (_php_bbcode_handling_param) %s", errbuf);
+-		efree(errbuf);
+-		efree(callable);
+-		return 0;
+-	}
++/* {{{ _php_bbcode_content_handler */
++static int _php_bbcode_content_handler(bstring content, bstring param, void *func_data)
++{
++	return _php_bbcode_callback_handler(PHP_BBCODE_CONTENT_CB, content, param, func_data);
++}
++/* }}} */
+ 
+-	zargs = (zval ***) emalloc(sizeof(zval **) * 2);
+-	zargs[0] = emalloc(sizeof(zval *));
+-	MAKE_STD_ZVAL(*zargs[0]);
+-	ZVAL_STRINGL(*zargs[0], bdata(content), blength(content), 1);
+-	zargs[1] = emalloc(sizeof(zval *));
+-	MAKE_STD_ZVAL(*zargs[1]);
+-	ZVAL_STRINGL(*zargs[1], bdata(param), blength(param), 1);
+-
+-	res = call_user_function_ex(EG(function_table), NULL, *funcname, &retval, 2, zargs, 1, NULL TSRMLS_CC);
+-
+-	if (res == SUCCESS) {
+-		if (zargs) {
+-			for (i = 0; i < 2; i++) {
+-				zval_ptr_dtor(zargs[i]);
+-				efree(zargs[i]);
+-			}
+-			efree(zargs);
+-		}
+-	} else {
+-		zend_error(E_WARNING, "[BBCode] (_php_bbcode_handling_param) call_user_function_ex failed for function %s()", callable);
+-	}
+-	efree(callable);
+-	if (&retval) {
+-		convert_to_string_ex(&retval);
+-		if(Z_STRLEN_P(retval)){
+-			bassignblk(param,Z_STRVAL_P(retval), Z_STRLEN_P(retval));
+-		} else {
+-			bdelete(param,0,blength(param));
+-		}
+-		zval_ptr_dtor(&retval);
+-	}
+-	return 0;
++/* {{{ _php_bbcode_param_handler */
++static int _php_bbcode_param_handler(bstring content, bstring param, void *func_data)
++{
++	return _php_bbcode_callback_handler(PHP_BBCODE_PARAM_CB, content, param, func_data);
+ }
+-/* End User function Callback */
+ /* }}} */
+-/* {{{ _php_bbcode_add_element */
+-/* Fill a bbcode_container */
+-static void _php_bbcode_add_element(bbcode_parser_p parser, char *tag_name, zval *content TSRMLS_DC) {
++
++/* {{{ _php_bbcode_add_element
++   Fills a bbcode_container */
++static void _php_bbcode_add_element(bbcode_parser_p parser, char *tag_name, int tag_name_len, zval *content TSRMLS_DC)
++{
+ 	zval **e;
+ 	long type;
+-	char *name;
+-	char empty[]="";
+-	char all[]="all";
+-	int (*content_handling_func)(bstring content, bstring param, void *func_data)=NULL;
+-	int (*param_handling_func)(bstring content, bstring param, void *func_data)=NULL;
+-    HashTable *ht=NULL;
+-    long flags=0;
+-	char *childs=all;
+-	int childs_len=3;
+-	char *parents=all;
+-	int parents_len=3;
++	char *callback_name;
++	char empty[] = "";
++	char all[] = "all";
++	int (*content_handling_func)(bstring content, bstring param, void *func_data) = NULL;
++	int (*param_handling_func)(bstring content, bstring param, void *func_data) = NULL;
++	HashTable *ht = NULL;
++	long flags = 0;
++	char *childs = all;
++	int childs_len = 3;
++	char *parents = all;
++	int parents_len = 3;
+ 	char *open_tag, *close_tag, *default_arg;
+-	int open_tag_len, close_tag_len, default_arg_len;
+-	open_tag_len = close_tag_len = default_arg_len = 0;
+-	zval **content_handling = NULL;
+-	zval **param_handling = NULL;
+-	
+-    if (Z_TYPE_P(content) == IS_ARRAY) {
+-        ht = HASH_OF(content);
+-    }
+-	if ((SUCCESS == zend_hash_find(ht, "flags", sizeof("flags"), (void *) &e))
+-			&& (Z_TYPE_PP(e) == IS_LONG)) {
+-			flags = Z_LVAL_PP(e);
++	int open_tag_len = 0, close_tag_len = 0, default_arg_len = 0;
++	zval *content_handling = NULL;
++	zval *param_handling = NULL;
++
++	if (Z_TYPE_P(content) == IS_ARRAY) {
++		ht = HASH_OF(content);
+ 	}
+-	if ((SUCCESS == zend_hash_find(ht, "type", sizeof("type"), (void *) &e))
+-			&& (Z_TYPE_PP(e) == IS_LONG)) {
++
++	/* flags */
++	if ((SUCCESS == zend_hash_find(ht, "flags", sizeof("flags"), (void *) &e)) &&
++		(Z_TYPE_PP(e) == IS_LONG)
++	) {
++		flags = Z_LVAL_PP(e);
++	}
++
++	/* type */
++	if ((SUCCESS == zend_hash_find(ht, "type", sizeof("type"), (void *) &e)) &&
++		(Z_TYPE_PP(e) == IS_LONG)
++	) {
+ 		type = Z_LVAL_PP(e);
+ 	} else {
+-		zend_error(E_WARNING, "[BBCode] (bbcode_add_element) No type specified for tag : [%s]",tag_name);
++		php_error_docref(NULL TSRMLS_CC, E_WARNING, "No type specified for tag [%s]", tag_name);
+ 		return;
+ 	}
+-	if ((SUCCESS == zend_hash_find(ht, "open_tag", sizeof("open_tag"), (void *) &e))
+-			&& (Z_TYPE_PP(e) == IS_STRING) && Z_STRLEN_PP(e)) {
++
++	/* open_tag */
++	if ((SUCCESS == zend_hash_find(ht, "open_tag", sizeof("open_tag"), (void *) &e)) &&
++		(Z_TYPE_PP(e) == IS_STRING) && Z_STRLEN_PP(e)
++	) {
+ 		open_tag = Z_STRVAL_PP(e);
+-		open_tag_len=Z_STRLEN_PP(e);
++		open_tag_len = Z_STRLEN_PP(e);
+ 	} else {
+-		open_tag=empty;
++		open_tag = empty;
+ 	}
+-	if ((SUCCESS == zend_hash_find(ht, "close_tag", sizeof("close_tag"), (void *) &e))
+-			&& (Z_TYPE_PP(e) == IS_STRING) && Z_STRLEN_PP(e)) {
++
++	/* close_tag */
++	if ((SUCCESS == zend_hash_find(ht, "close_tag", sizeof("close_tag"), (void *) &e)) &&
++		(Z_TYPE_PP(e) == IS_STRING) && Z_STRLEN_PP(e)
++	) {
+ 		close_tag = Z_STRVAL_PP(e);
+-		close_tag_len=Z_STRLEN_PP(e);
++		close_tag_len = Z_STRLEN_PP(e);
+ 	} else {
+-		close_tag=empty;
++		close_tag = empty;
+ 	}
+-	if ((SUCCESS == zend_hash_find(ht, "default_arg", sizeof("default_arg"), (void *) &e))
+-			&& (Z_TYPE_PP(e) == IS_STRING) && Z_STRLEN_PP(e)) {
++
++	/* default_arg */
++	if ((SUCCESS == zend_hash_find(ht, "default_arg", sizeof("default_arg"), (void *) &e)) &&
++		(Z_TYPE_PP(e) == IS_STRING) && Z_STRLEN_PP(e)
++	) {
+ 		default_arg = Z_STRVAL_PP(e);
+ 		default_arg_len = Z_STRLEN_PP(e);
+ 	} else {
+ 		default_arg = empty;
+ 	}
+-	if ((SUCCESS == zend_hash_find(ht, "content_handling", sizeof("content_handling"), (void *) &e))) {
++
++	/* content_handling */
++	if ((SUCCESS == zend_hash_find(ht, "content_handling", sizeof("content_handling"), (void *) &e)) && 
++		((Z_TYPE_PP(e) == IS_STRING && Z_STRLEN_PP(e)) || (Z_TYPE_PP(e) == IS_ARRAY))
++	) {
++		SEPARATE_ZVAL(e);
+ 		if (Z_TYPE_PP(e) != IS_STRING && Z_TYPE_PP(e) != IS_ARRAY){
+-			SEPARATE_ZVAL(e);
+ 			convert_to_string_ex(e);
+ 		}
+-		if (!zend_is_callable(*e, 0, &name)) {
+-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "First argument is expected to be a valid callback, '%s' was given", name);
+-			efree(name);
++		if (!zend_is_callable(*e, 0, &callback_name TSRMLS_CC)) {
++			php_error_docref(NULL TSRMLS_CC, E_WARNING, "First argument is expected to be a valid callback, '%s' was given", callback_name);
++			efree(callback_name);
+ 			return;
+ 		}
+-		efree(name);
+-		content_handling = e;
+-#if (PHP_MAJOR_VERSION >= 5) && (PHP_MINOR_VERSION >= 3)
+-		Z_ADDREF_P(*content_handling);
+-#else
+-		ZVAL_ADDREF(*content_handling);
+-#endif
+-		content_handling_func= _php_bbcode_handling_content;
++		efree(callback_name);
++		content_handling = *e;
++		content_handling_func = _php_bbcode_content_handler;
+ 	} else {
+-		content_handling=NULL;
++		content_handling_func = NULL;
++		content_handling = NULL;
+ 	}
+-	if ((SUCCESS == zend_hash_find(ht, "param_handling", sizeof("param_handling"), (void *) &e))
+-			&& ((Z_TYPE_PP(e) == IS_STRING && Z_STRLEN_PP(e)) || (Z_TYPE_PP(e)==IS_ARRAY))) {
++
++	/* param_handling */
++	if ((SUCCESS == zend_hash_find(ht, "param_handling", sizeof("param_handling"), (void *) &e)) &&
++		((Z_TYPE_PP(e) == IS_STRING && Z_STRLEN_PP(e)) || (Z_TYPE_PP(e) == IS_ARRAY))
++	) {
++		SEPARATE_ZVAL(e);
+ 		if (Z_TYPE_PP(e) != IS_STRING && Z_TYPE_PP(e) != IS_ARRAY){
+-			SEPARATE_ZVAL(e);
+ 			convert_to_string_ex(e);
+ 		}
+-		if (!zend_is_callable(*e, 0, &name)) {
+-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "First argument is expected to be a valid callback, '%s' was given", name);
+-			efree(name);
++		if (!zend_is_callable(*e, 0, &callback_name TSRMLS_CC)) {
++			php_error_docref(NULL TSRMLS_CC, E_WARNING, "First argument is expected to be a valid callback, '%s' was given", callback_name);
++			efree(callback_name);
+ 			return;
+ 		}
+-		efree(name);
+-		param_handling = e;
+-#if (PHP_MAJOR_VERSION >= 5) && (PHP_MINOR_VERSION >= 3)
+-		Z_ADDREF_P(*param_handling);
+-#else
+-		ZVAL_ADDREF(*param_handling);
+-#endif
+-		param_handling_func= _php_bbcode_handling_param;
++		efree(callback_name);
++		param_handling = *e;
++		param_handling_func = _php_bbcode_param_handler;
++	} else {
++		param_handling_func = NULL;
++		param_handling = NULL;
+ 	}
+-	if ((SUCCESS == zend_hash_find(ht, "childs", sizeof("childs"), (void *) &e))
+-			&& (Z_TYPE_PP(e) == IS_STRING)) {
++
++	/* childs */
++	if ((SUCCESS == zend_hash_find(ht, "childs", sizeof("childs"), (void *) &e)) &&
++		(Z_TYPE_PP(e) == IS_STRING)
++	) {
+ 		childs = Z_STRVAL_PP(e);
+ 		childs_len = Z_STRLEN_PP(e);
+ 	}
+-	if ((SUCCESS == zend_hash_find(ht, "parents", sizeof("parents"), (void *) &e))
+-			&& (Z_TYPE_PP(e) == IS_STRING) && Z_STRLEN_PP(e)) {
++
++	/* parents */
++	if ((SUCCESS == zend_hash_find(ht, "parents", sizeof("parents"), (void *) &e)) &&
++		(Z_TYPE_PP(e) == IS_STRING) && Z_STRLEN_PP(e)
++	) {
+ 		parents = Z_STRVAL_PP(e);
+ 		parents_len = Z_STRLEN_PP(e);
+ 	}
++
+ 	bbcode_parser_add_ruleset(parser, type, flags,
+-			tag_name, strlen(tag_name),
+-			open_tag, open_tag_len,
+-			close_tag, close_tag_len, default_arg, default_arg_len, parents,
+-			parents_len, childs, childs_len, 
+-			param_handling_func,
+-			content_handling_func,
+-			(void *)param_handling,
+-			(void *)content_handling);
++		tag_name, tag_name_len,
++		open_tag, open_tag_len,
++		close_tag, close_tag_len,
++		default_arg, default_arg_len,
++		parents, parents_len,
++		childs, childs_len, 
++		param_handling_func,
++		content_handling_func,
++		(void *)param_handling,
++		(void *)content_handling
++	);
+ }
+ /* }}} */
+-/* Destructors */
+-ZEND_RSRC_DTOR_FUNC(php_bbcode_dtor)
++
++/* {{{ Resource destructor */
++static ZEND_RSRC_DTOR_FUNC(php_bbcode_dtor)
+ {
+-    bbcode_parser_p parser = (bbcode_parser_p)rsrc->ptr;
+-    if (parser) {
+-    	bbcode_parser_free(parser);
+-    }
++	bbcode_parser_p parser = (bbcode_parser_p)rsrc->ptr;
++	if (parser) {
++		bbcode_parser_free(parser);
++	}
+ }
+-/* End destructors */
+-/* INIT / SHUTDOWN */
+-PHP_MINIT_FUNCTION(bbcode)
++/* }}} */
++
++/* {{{ Module INIT / SHUTDOWN */
++static PHP_MINIT_FUNCTION(bbcode)
+ {
+-    le_bbcode = zend_register_list_destructors_ex(php_bbcode_dtor, NULL, PHP_BBCODE_RES_NAME, module_number);
++	le_bbcode = zend_register_list_destructors_ex(php_bbcode_dtor, NULL, PHP_BBCODE_RES_NAME, module_number);
++
+ 	/* BBCODE Types */
+ 	REGISTER_LONG_CONSTANT("BBCODE_TYPE_NOARG",					BBCODE_TYPE_NOARG, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_TYPE_SINGLE",				BBCODE_TYPE_SINGLE, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_TYPE_ARG",					BBCODE_TYPE_ARG, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_TYPE_OPTARG",				BBCODE_TYPE_OPTARG, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_TYPE_ROOT",					BBCODE_TYPE_ROOT, CONST_CS|CONST_PERSISTENT);
++
+ 	/* BBCODE Flags */
+ 	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_ARG_PARSING",			BBCODE_FLAGS_ARG_PARSING, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_CDATA_NOT_ALLOWED",	BBCODE_FLAGS_CDATA_NOT_ALLOWED, CONST_CS|CONST_PERSISTENT);
+@@ -330,42 +283,52 @@
+ 	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_ONE_OPEN_PER_LEVEL",	BBCODE_FLAGS_ONE_OPEN_PER_LEVEL, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_REMOVE_IF_EMPTY",		BBCODE_FLAGS_REMOVE_IF_EMPTY, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_DENY_REOPEN_CHILD",	BBCODE_FLAGS_DENY_REOPEN_CHILD, CONST_CS|CONST_PERSISTENT);
+-	/* Parsers Flags */
++
++	/* Parser Flags */
++
+ 	/* Quotes styles */
+ 	REGISTER_LONG_CONSTANT("BBCODE_ARG_DOUBLE_QUOTE",			BBCODE_ARG_DOUBLE_QUOTE, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_ARG_SINGLE_QUOTE",			BBCODE_ARG_SINGLE_QUOTE, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_ARG_HTML_QUOTE",				BBCODE_ARG_HTML_QUOTE, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_ARG_QUOTE_ESCAPING",			BBCODE_ARG_QUOTE_ESCAPING, CONST_CS|CONST_PERSISTENT);
++
+ 	/* Parsing Options */
+ 	REGISTER_LONG_CONSTANT("BBCODE_AUTO_CORRECT",				BBCODE_AUTO_CORRECT, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_CORRECT_REOPEN_TAGS",		BBCODE_CORRECT_REOPEN_TAGS, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_DISABLE_TREE_BUILD",			BBCODE_DISABLE_TREE_BUILD, CONST_CS|CONST_PERSISTENT);
+-	/* Smileys Options */
++
++	/* Smiley Options */
+ 	REGISTER_LONG_CONSTANT("BBCODE_DEFAULT_SMILEYS_ON",			BBCODE_DEFAULT_SMILEYS_ON, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_DEFAULT_SMILEYS_OFF",		BBCODE_DEFAULT_SMILEYS_OFF, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_FORCE_SMILEYS_OFF",			BBCODE_FORCE_SMILEYS_OFF, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_SMILEYS_CASE_INSENSITIVE",	BBCODE_SMILEYS_CASE_INSENSITIVE, CONST_CS|CONST_PERSISTENT);
++
+ 	/* FLAG SET / ADD / REMOVE */
+ 	REGISTER_LONG_CONSTANT("BBCODE_SET_FLAGS_SET",				BBCODE_SET_FLAGS_SET, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_SET_FLAGS_ADD",				BBCODE_SET_FLAGS_ADD, CONST_CS|CONST_PERSISTENT);
+ 	REGISTER_LONG_CONSTANT("BBCODE_SET_FLAGS_REMOVE",			BBCODE_SET_FLAGS_REMOVE, CONST_CS|CONST_PERSISTENT);
+-    return SUCCESS;
++
++	return SUCCESS;
+ }
+-/* END INIT/SHUTDOWN */
++/* }}} */
+ 
+ #if Void_0
+-/* {{{
+- * Working on it, not finished yet
+- * OBJECT START */
+-static void _php_bbcode_object_free_storage(void *object TSRMLS_DC){
++typedef struct _bbcode_object {
++	zend_object	std;
++	int			rsrc_id;
++} bbcode_object;
++
++/* {{{ TODO: Not finished yet! */
++static void _php_bbcode_object_free_storage(void *object TSRMLS_DC)
++{
+ 	bbcode_object *intern = (bbcode_object *)object;
+ 	zval *pointer;
+ 	zval *return_value;
+-	
++
+ 	zend_object_std_dtor(&intern->std TSRMLS_CC);
+ 
+ 	bbcode_container *container;
+-	
++
+ 	if (intern->rsrc_id) {
+ 			ALLOC_INIT_ZVAL(pointer);
+ 			ALLOC_INIT_ZVAL(return_value);
+@@ -373,9 +336,9 @@
+ 			Z_TYPE_P(pointer) = IS_LONG;
+ 			Z_LVAL_P(pointer) = intern->rsrc_id;
+ 			ZEND_FETCH_RESOURCE(container, bbcode_container*, &pointer, -1, PHP_BBCODE_RES_NAME, le_bbcode);
+-   			bbcode_destroy_tag_stack(container);
+-   			efree(return_value);
+-   			zval_ptr_dtor(&pointer);
++			bbcode_destroy_tag_stack(container);
++			efree(return_value);
++			zval_ptr_dtor(&pointer);
+ 			zend_list_delete(intern->rsrc_id);
+ 	}
+ 	efree(object);
+@@ -397,120 +360,130 @@
+ 									NULL TSRMLS_CC);
+ 	retval->handlers = handlers;
+ }
+-/* END OBJECT
+- * }}} */
++/* }}} */
+ #endif
++
+ /* {{{ proto resource bbcode_container bbcode_create([array initial_tags])
+-   create a new bbcode_container and add elements given in the array to the resource
+-   initial_tags is an associative array with tag_name=>tag_definition
+-   (see bbcode_add_element to view tag_definition format) */
+-PHP_FUNCTION(bbcode_create)
++   Creates a new bbcode_container and adds elements given in the array to the resource. */
++static PHP_FUNCTION(bbcode_create)
+ {
+-	zval *bbcode_entry=NULL;
++	zval *bbcode_entry = NULL;
+ 	bbcode_parser_p parser = NULL;
+-	
++
+ 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "|a", &bbcode_entry) == FAILURE) {
+-        RETURN_NULL();
+-    }
+-    
+-    /* Container init */
+-    parser=bbcode_parser_create();
+-    if (parser==NULL){
+-		zend_error(E_ERROR, "[BBCode] (bbcode_create) Unable to allocate memory for tag_stack");
+-    }
+-    bbcode_parser_set_flags(parser, BBCODE_AUTO_CORRECT|BBCODE_ARG_DOUBLE_QUOTE|BBCODE_ARG_SINGLE_QUOTE|BBCODE_ARG_HTML_QUOTE|BBCODE_DEFAULT_SMILEYS_ON);
+-    /* If array given initialisation */
+-    if(bbcode_entry!=NULL){
+-	    int i;
+-	    HashTable *myht=NULL;
+-	    
+-	    if (Z_TYPE_P(bbcode_entry) == IS_ARRAY) {
+-	        myht = HASH_OF(bbcode_entry);
+-	    }
+-		
+-	    i = myht ? zend_hash_num_elements(myht) : 0;
+-	    if (i > 0) {
+-	        char *key;
+-	        zval **data;
+-	        ulong index;
+-	        uint key_len;
+-	        HashPosition pos;
+-	        HashTable *tmp_ht;
++		RETURN_NULL();
++	}
++
++	/* Container init */
++	parser = bbcode_parser_create();
++	if (parser == NULL){
++		php_error_docref(NULL TSRMLS_CC, E_ERROR, "Unable to allocate memory for tag_stack");
++	}
++	bbcode_parser_set_flags(parser, BBCODE_AUTO_CORRECT|BBCODE_ARG_DOUBLE_QUOTE|BBCODE_ARG_SINGLE_QUOTE|BBCODE_ARG_HTML_QUOTE|BBCODE_DEFAULT_SMILEYS_ON);
++
++	/* If array given initialisation */
++	if (bbcode_entry != NULL) {
++		int i;
++		HashTable *myht = NULL;
++
++		if (Z_TYPE_P(bbcode_entry) == IS_ARRAY) {
++			myht = HASH_OF(bbcode_entry);
++		}
++
++		i = myht ? zend_hash_num_elements(myht) : 0;
++		if (i > 0) {
++			char *key;
++			zval **data;
++			ulong index;
++			uint key_len;
++			HashPosition pos;
++			HashTable *tmp_ht;
++
+ 			/* Array walking */
+-	        zend_hash_internal_pointer_reset_ex(myht, &pos);
+-	        for (;; zend_hash_move_forward_ex(myht, &pos)) {
+-	            i = zend_hash_get_current_key_ex(myht, &key, &key_len, &index, 0, &pos);
+-	            if (i == HASH_KEY_NON_EXISTANT)
+-	                break;
+-	
+-	            if (zend_hash_get_current_data_ex(myht, (void **) &data, &pos) == SUCCESS) {
+-	                tmp_ht = HASH_OF(*data);
+-	                if (tmp_ht) {
+-	                    tmp_ht->nApplyCount++;
+-	                }
+-                    if (i == HASH_KEY_IS_STRING) {
++			zend_hash_internal_pointer_reset_ex(myht, &pos);
++			for (;; zend_hash_move_forward_ex(myht, &pos)) {
++				i = zend_hash_get_current_key_ex(myht, &key, &key_len, &index, 0, &pos);
++				if (i == HASH_KEY_NON_EXISTANT) {
++					break;
++				}
++
++				if (zend_hash_get_current_data_ex(myht, (void **) &data, &pos) == SUCCESS) {
++					tmp_ht = HASH_OF(*data);
++					if (tmp_ht) {
++						tmp_ht->nApplyCount++;
++					}
++					if (i == HASH_KEY_IS_STRING) {
+ 						/* Add Element to container */
+-                    	_php_bbcode_add_element(parser,key,*data TSRMLS_CC);
+-	                }
+-	                if (tmp_ht) {
+-		                    tmp_ht->nApplyCount--;
+-	                }
+-	            }
+-	        }
+-	    }
+-    }
+-    /* Registering Resource & returning */
+-    ZEND_REGISTER_RESOURCE(return_value, parser, le_bbcode);
++						_php_bbcode_add_element(parser, key, key_len - 1, *data TSRMLS_CC);
++					}
++					if (tmp_ht) {
++							tmp_ht->nApplyCount--;
++					}
++				}
++			}
++		}
++	}
++
++	/* Register resource and return it */
++	ZEND_REGISTER_RESOURCE(return_value, parser, le_bbcode);
+ }
+ /* }}} */
+-/* {{{ proto boolean bbcode_add_element(resource bbcode_container, string tag_name , array tag_definition)
+-   add a new tag to the given bbcode_container
+-   tag_definition is an array with those elements:
+-   needed:
+-    * 'type' => Type of the tag (view BBCODE_TYPE_* to view available tags)
+-   optionnals:
+-   	* 'flags' =0 => features of the tag (view BBCODE_FLAGS_* to view capacities)
+-    * 'open_tag' = '' => the replacement open_tag (1)
+-    * 'close_tag' = '' => the replacement close_tag (1)
+-    * 'default_argument' = '' => For Optionnal argument tags argument taken if not given (1)
+-    * 'content_handling' = '' => Function name called as callback for content ( string new_content content_function ( content, param ); )
+-    * 'param_handling' = '' => Function name called as callback for content ( string new_content content_function ( content, param ); )
+-    * 'childs' = 'all' => Comma separated list of accepted childs (use !list to make a list of non accepted childs, no space between tag_names)
+-    * 'parents' = 'all' => Comma separated list of tags of which this tag could be a child
+-    (1) note that the {CONTENT} string is automatically replaced by the content of the tag and {PARAM} by the parameter
+-    */
+-PHP_FUNCTION(bbcode_add_element)
++
++/* {{{ proto boolean bbcode_add_element(resource bbcode_container, string tag_name, array tag_definition)
++   Adds a new tag to the given bbcode_container. */
++static PHP_FUNCTION(bbcode_add_element)
+ {
+ 	zval *z_bbcode_parser;
+ 	zval *bbcode_entry;
+-	bbcode_parser_p parser=NULL;
++	bbcode_parser_p parser = NULL;
+ 	char *tag_name;
+-	int tag_len;
+-	
+-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "rsa", &z_bbcode_parser, &tag_name, &tag_len, &bbcode_entry) == FAILURE) {
+-        RETURN_NULL();
+-    }
++	int tag_name_len;
++
++	/* tag_definition is an array with these elements:
++
++	- required:
++		o 'type' => Type of the tag (view BBCODE_TYPE_* to view available tags)
++
++	- optional:
++		o 'flags' =0 => features of the tag (view BBCODE_FLAGS_* to view capacities)
++		o 'open_tag' = '' => the replacement open_tag (1)
++		o 'close_tag' = '' => the replacement close_tag (1)
++		o 'default_argument' = '' => For Optionnal argument tags argument taken if not given [1]
++		o 'content_handling' = '' => Function name called as callback for content ( string new_content content_function ( content, param ); )
++		o 'param_handling' = '' => Function name called as callback for content ( string new_content content_function ( content, param ); )
++		o 'childs' = 'all' => Comma separated list of accepted childs (use !list to make a list of non accepted childs, no space between tag_names)
++		o 'parents' = 'all' => Comma separated list of tags of which this tag could be a child
++
++		[1] note that the {CONTENT} string is automatically replaced by the content of the tag and {PARAM} by the parameter
++	*/
++
++	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "rsa", &z_bbcode_parser, &tag_name, &tag_name_len, &bbcode_entry) == FAILURE) {
++		RETURN_NULL();
++	}
++
+ 	ZEND_FETCH_RESOURCE(parser, bbcode_parser_p, &z_bbcode_parser, -1, PHP_BBCODE_RES_NAME, le_bbcode);
+-	_php_bbcode_add_element(parser, tag_name, bbcode_entry TSRMLS_CC);
++	_php_bbcode_add_element(parser, tag_name, tag_name_len, bbcode_entry TSRMLS_CC);
+ 	RETURN_TRUE;
+ }
+ /* }}} */
++
+ /* {{{ proto boolean bbcode_destroy(resource bbcode_container)
+-   free memory resources of the given bbcode_container */
+-PHP_FUNCTION(bbcode_destroy)
++   Frees memory resources of the given bbcode_container. */
++static PHP_FUNCTION(bbcode_destroy)
+ {
+ 	zval *z_bbcode_parser;
+-	
++
+ 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "r", &z_bbcode_parser) == FAILURE) {
+-        RETURN_NULL();
+-    }
+-    
++		RETURN_NULL();
++	}
++
+ 	RETURN_BOOL(zend_list_delete(Z_LVAL_P(z_bbcode_parser)) == SUCCESS);
+ }
+ /* }}} */
++
+ /* {{{ proto string bbcode_parse(resource bbcode_container, string to_parse)
+-   returns the bbcode parsed value of the to_parse string with definitions given by bbcode_container  */
+-PHP_FUNCTION(bbcode_parse)
++   Returns the bbcode parsed value of the to_parse string with definitions given by bbcode_container. */
++static PHP_FUNCTION(bbcode_parse)
+ {
+ 	zval *z_bbcode_parser;
+ 	bbcode_parser_p parser;
+@@ -518,101 +491,165 @@
+ 	int str_len;
+ 	char *ret_string;
+ 	int ret_size;
+-	
++
+ 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "rs", &z_bbcode_parser, &string, &str_len) == FAILURE) {
+-        RETURN_NULL();
+-    }
++		RETURN_NULL();
++	}
++
+ 	ZEND_FETCH_RESOURCE(parser, bbcode_parser_p, &z_bbcode_parser, -1, PHP_BBCODE_RES_NAME, le_bbcode);
+-	/* converting string for bbcode_parse_string usage */
+-	ret_string=bbcode_parse(parser, string, str_len, &ret_size);
+-	
++
++	/* convert string for bbcode_parse_string usage */
++	ret_string = bbcode_parse(parser, string, str_len, &ret_size);
++
+ 	RETVAL_STRINGL(ret_string, ret_size , 1);
+ 	free(ret_string);
+ }
+ /* }}} */
++
+ /* {{{ proto boolean bbcode_add_smiley(resource bbcode_container, string find, string replace)
+-   add a smiley find and replace ruleset */
+-PHP_FUNCTION(bbcode_add_smiley)
++   Adds a smiley to find and replace ruleset. */
++static PHP_FUNCTION(bbcode_add_smiley)
+ {
+ 	zval *z_bbcode_parser;
+ 	char *search, *replace;
+ 	int s_len, r_len;
+-	bbcode_parser_p parser=NULL;
+-	
++	bbcode_parser_p parser = NULL;
++
+ 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "rss", &z_bbcode_parser, &search, &s_len, &replace, &r_len) == FAILURE) {
+-        RETURN_NULL();
+-    }
+-    
++		RETURN_NULL();
++	}
++
+ 	ZEND_FETCH_RESOURCE(parser, bbcode_parser_p, &z_bbcode_parser, -1, PHP_BBCODE_RES_NAME, le_bbcode);
+-	
++
+ 	bbcode_parser_add_smiley(parser, search, s_len, replace, r_len);
+ 	RETURN_BOOL(SUCCESS);
+ }
+ /* }}} */
++
+ /* {{{ proto boolean bbcode_set_flags(resource bbcode_container, long flag, long mode)
+-   manage flags on parser using BBCODE_SET_FLAGS_* */
+-PHP_FUNCTION(bbcode_set_flags)
++   Set flags on parser using BBCODE_SET_FLAGS_* constants. */
++static PHP_FUNCTION(bbcode_set_flags)
+ {
+ 	zval *z_bbcode_parser;
+ 	long new_flags;
+-	long mode=0;
++	long mode = 0;
+ 	long flags;
+ 	bbcode_parser_p parser=NULL;
+-	
++
+ 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "rl|l", &z_bbcode_parser, &new_flags, &mode) == FAILURE) {
+-        RETURN_NULL();
+-    }
+-    
++		RETURN_NULL();
++	}
++
+ 	ZEND_FETCH_RESOURCE(parser, bbcode_parser_p, &z_bbcode_parser, -1, PHP_BBCODE_RES_NAME, le_bbcode);
+-	
+-	flags=bbcode_parser_get_flags(parser);
+-	switch (mode){
++
++	flags = bbcode_parser_get_flags(parser);
++
++	switch (mode) {
+ 		case BBCODE_SET_FLAGS_ADD:
+ 			bbcode_parser_set_flags(parser, flags | new_flags);
+ 			break;
+-			
++
+ 		case BBCODE_SET_FLAGS_REMOVE:
+ 			bbcode_parser_set_flags(parser, flags & (~new_flags));
+ 			break;
+-			
++
+ 		default:
+ 		case BBCODE_SET_FLAGS_SET:
+ 			bbcode_parser_set_flags(parser, new_flags);
+ 			break;
+-			
+ 	}
+-   	
++
+ 	RETURN_BOOL(SUCCESS);
+ }
+ /* }}} */
++
+ /* {{{ proto boolean bbcode_set_arg_parser(resource bbcode_container, resource bbcode_child)
+-   Sets a bbcode_argument_parser */
+-PHP_FUNCTION(bbcode_set_arg_parser)
++   Defines a bbcode_argument_parser. */
++static PHP_FUNCTION(bbcode_set_arg_parser)
+ {
+ 	zval *z_bbcode_parser;
+ 	zval *z_bbcode_parser_child;
+-	bbcode_parser_p parser=NULL;
+-	bbcode_parser_p arg_parser=NULL;
+-	
++	bbcode_parser_p parser = NULL;
++	bbcode_parser_p arg_parser = NULL;
++
+ 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "rr", &z_bbcode_parser, &z_bbcode_parser_child) == FAILURE) {
+-        RETURN_NULL();
+-    }
++		RETURN_NULL();
++	}
++
+ 	ZEND_FETCH_RESOURCE(parser, bbcode_parser_p, &z_bbcode_parser, -1, PHP_BBCODE_RES_NAME, le_bbcode);
+ 	ZEND_FETCH_RESOURCE(arg_parser, bbcode_parser_p, &z_bbcode_parser_child, -1, PHP_BBCODE_RES_NAME, le_bbcode);
+-   	bbcode_parser_set_arg_parser(parser, arg_parser);
++
++	bbcode_parser_set_arg_parser(parser, arg_parser);
++
+ 	RETURN_BOOL(SUCCESS);
+ }
+ /* }}} */
+ 
+-/*** Module Infos ***/
+-PHP_MINFO_FUNCTION(bbcode)
++/* {{{ Module Info */
++static PHP_MINFO_FUNCTION(bbcode)
+ {
+ 	php_info_print_table_start();
+ 	php_info_print_table_header(2, "BBCode support", "enabled");
+-	php_info_print_table_row(2, "BBCode Version Support", PHP_BBCODE_VERSION);
++	php_info_print_table_row(2, "BBCode Extension Version", PHP_BBCODE_VERSION);
+ 	php_info_print_table_row(2, "BBCode Library Version", BBCODE_LIB_VERSION);
+ 	php_info_print_table_row(2, "BBCode Max Stack Size", "Dynamic");
+ 	php_info_print_table_row(2, "BBCode Max Elements", "No Limit");
+-	php_info_print_table_header(1, "This extension makes use of Bstrlib available at http://bstrlib.sf.net");
+ 	php_info_print_table_end();
++	php_info_print_box_start(0);
++	PUTS("This extension makes use of Bstrlib available at http://bstrlib.sf.net");
++	php_info_print_box_end();
+ }
++/* }}} */
++
++static zend_function_entry bbcode_functions[] = { /* {{{ */
++	PHP_FE(bbcode_create,         NULL)
++	PHP_FE(bbcode_add_element,    NULL)
++	PHP_FE(bbcode_destroy,        NULL)
++	PHP_FE(bbcode_parse,          NULL)
++	PHP_FE(bbcode_add_smiley,     NULL)
++	PHP_FE(bbcode_set_flags,      NULL)
++	PHP_FE(bbcode_set_arg_parser, NULL)
++	{NULL, NULL, NULL}
++};
++/* }}} */
++
++#if Void_0
++/* Object Part, working on it */
++zend_function_entry bbcode_funcs_object[] = {
++	PHP_ME_MAPPING(__construct, bbcode_create,      NULL, 0)
++	PHP_ME_MAPPING(addElement,  bbcode_add_element, NULL, 0)
++	PHP_ME_MAPPING(destroy,     bbcode_destroy,     NULL, 0)
++	PHP_ME_MAPPING(parse,       bbcode_parse,       NULL, 0)
++	{NULL, NULL, NULL}
++};
++#endif
++
++zend_module_entry bbcode_module_entry = {
++#if ZEND_MODULE_API_NO >= 20010901
++	STANDARD_MODULE_HEADER,
++#endif
++	PHP_BBCODE_EXTNAME,
++	bbcode_functions,
++	PHP_MINIT(bbcode),
++	NULL,
++	NULL,
++	NULL,
++	PHP_MINFO(bbcode),
++#if ZEND_MODULE_API_NO >= 20010901
++	PHP_BBCODE_VERSION,
++#endif
++	STANDARD_MODULE_PROPERTIES
++};
++
++#ifdef COMPILE_DL_BBCODE
++ZEND_GET_MODULE(bbcode)
++#endif
++
++/*
++ * Local variables:
++ * tab-width: 4
++ * c-basic-offset: 4
++ * End:
++ * vim600: noet sw=4 ts=4 fdm=marker
++ * vim<600: noet sw=4 ts=4
++ */
+
+Property changes on: php_bbcode.c
+___________________________________________________________________
+Modified: cvs2svn:cvs-rev
+   - 1.25
+   + 1.30
+
+Index: php_bbcode.h
+===================================================================
+--- php_bbcode.h	(.../tags/RELEASE_1_0_2)
++++ php_bbcode.h	(.../trunk)
+@@ -2,7 +2,7 @@
+   +----------------------------------------------------------------------+
+   | PHP Version 5                                                        |
+   +----------------------------------------------------------------------+
+-  | Copyright (c) 1997-2007 The PHP Group                                |
++  | Copyright (c) 1997-2008 The PHP Group                                |
+   +----------------------------------------------------------------------+
+   | This source file is subject to version 3.01 of the PHP license,      |
+   | that is bundled with this package in the file LICENSE, and is        |
+@@ -14,32 +14,31 @@
+   +----------------------------------------------------------------------+
+   | Author: Xavier De Cock <void@php.net>                                |
+   +----------------------------------------------------------------------+
+-
+-  $Id$ 
+ */
++
++/* $Id$ */
++
+ #ifndef PHP_BBCODE_H
+-#define PHP_BBCODE_H 1
++#define PHP_BBCODE_H
+ 
+-#define PHP_BBCODE_VERSION "1.0.2"
++#define PHP_BBCODE_VERSION "1.1.0-dev"
+ #define PHP_BBCODE_EXTNAME "bbcode"
++#define PHP_BBCODE_RES_NAME "BBCode resource"
+ 
+ #define BBCODE_SET_FLAGS_SET	0
+ #define BBCODE_SET_FLAGS_ADD	1
+ #define BBCODE_SET_FLAGS_REMOVE 2
+ 
+-PHP_MINIT_FUNCTION(bbcode);
+-PHP_MINFO_FUNCTION(bbcode);
+-PHP_FUNCTION(bbcode_create);
+-PHP_FUNCTION(bbcode_add_element);
+-PHP_FUNCTION(bbcode_destroy);
+-PHP_FUNCTION(bbcode_parse);
+-PHP_FUNCTION(bbcode_add_smiley);
+-PHP_FUNCTION(bbcode_set_flags);
+-PHP_FUNCTION(bbcode_set_arg_parser);
+-
+ extern zend_module_entry bbcode_module_entry;
+ #define phpext_bbcode_ptr &bbcode_module_entry
+ 
+-#define PHP_BBCODE_RES_NAME "BBCode resource"
+-
+ #endif
++
++/*
++ * Local variables:
++ * tab-width: 4
++ * c-basic-offset: 4
++ * End:
++ * vim600: noet sw=4 ts=4 fdm=marker
++ * vim<600: noet sw=4 ts=4
++ */
+
+Property changes on: php_bbcode.h
+___________________________________________________________________
+Modified: cvs2svn:cvs-rev
+   - 1.13
+   + 1.14
+
+
+Property changes on: .
+___________________________________________________________________
+Added: svn:ignore
+   + .deps
+Makefile
+*.lo
+*.loT
+*.slo
+*.mk
+*.la
+.libs
+libs.mk
+ac*.m4
+build
+config.h
+config.h.in
+config.nice
+config.sub
+configure
+configure.in
+config.status
+config.cache
+conftest
+conftest.c
+core
+dynlib.m4
+install-sh
+ltmain.sh
+include
+Makefile.fragments
+Makefile.global
+Makefile.objects
+missing
+mkinstalldirs
+modules
+scan_makefile_in.awk
+config.guess
+*swp
+config.log
+libtool
+Debug
+Release
+Debug_TS
+Release_TS
+*.plg
+*.patch
+*.tgz
+*.ncb
+*.opt
+*.dsw
+autom4te.cache
+run-tests-config.php
+run-tests.php
+
+

@@ -3,11 +3,13 @@
 Summary:	%{modname} - parsing extension
 Summary(pl.UTF-8):	%{modname} - rozszerzenie parsujące
 Name:		php-pecl-%{modname}
-Version:	1.0.2
-Release:	2
+Version:	1.1.0
+Release:	1
 License:	PHP / BSD
 Group:		Development/Languages/PHP
-Source0:	http://pecl.php.net/get/%{modname}-%{version}.tgz
+Source0:	http://pecl.php.net/get/%{modname}-1.0.2.tgz
+Patch0:		cvs2svn.patch
+Patch1:		branch.diff
 # Source0-md5:	1fb6971b2758a50785f188964991ddf9
 URL:		http://pecl.php.net/package/bbcode/
 BuildRequires:	php-devel >= 3:5.0.4
@@ -43,7 +45,10 @@ To rozszerzenie ma w PECL status: %{status}.
 
 %prep
 %setup -qc
-mv %{modname}-%{version}/* .
+mv %{modname}-1.0.2/* .
+%undos -f c,h
+%patch0 -p1
+%patch1 -p0
 
 %build
 phpize
