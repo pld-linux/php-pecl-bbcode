@@ -21,12 +21,17 @@ Index: config.w32
 Property changes on: config.w32
 ___________________________________________________________________
 Added: svn:eol-style
-   + native
+## -0,0 +1 ##
++native
+\ No newline at end of property
 Added: svn:keywords
-   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+## -0,0 +1 ##
++Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+\ No newline at end of property
 Added: cvs2svn:cvs-rev
-   + 1.2
-
+## -0,0 +1 ##
++1.2
+\ No newline at end of property
 Index: tests/test_ivy.phpt
 ===================================================================
 --- tests/test_ivy.phpt	(.../tags/RELEASE_1_0_2)
@@ -541,13 +546,18 @@ Index: tests/test_ivy.phpt
 
 Property changes on: tests/test_ivy.phpt
 ___________________________________________________________________
-Added: svn:eol-style
-   + native
 Added: svn:keywords
-   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+## -0,0 +1 ##
++Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+\ No newline at end of property
 Added: cvs2svn:cvs-rev
-   + 1.4
-
+## -0,0 +1 ##
++1.4
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
 Index: tests/test_26.phpt
 ===================================================================
 --- tests/test_26.phpt	(.../tags/RELEASE_1_0_2)
@@ -640,13 +650,18 @@ Index: tests/test_26.phpt
 
 Property changes on: tests/test_26.phpt
 ___________________________________________________________________
-Added: svn:eol-style
-   + native
 Added: svn:keywords
-   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+## -0,0 +1 ##
++Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+\ No newline at end of property
 Added: cvs2svn:cvs-rev
-   + 1.1
-
+## -0,0 +1 ##
++1.1
+\ No newline at end of property
+Added: svn:eol-style
+## -0,0 +1 ##
++native
+\ No newline at end of property
 Index: tests/test_27.phpt
 ===================================================================
 --- tests/test_27.phpt	(.../tags/RELEASE_1_0_2)
@@ -681,26 +696,102 @@ Index: tests/test_27.phpt
 Property changes on: tests/test_27.phpt
 ___________________________________________________________________
 Added: svn:eol-style
-   + native
+## -0,0 +1 ##
++native
+\ No newline at end of property
 Added: svn:keywords
-   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+## -0,0 +1 ##
++Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+\ No newline at end of property
 Added: cvs2svn:cvs-rev
-   + 1.1
-
+## -0,0 +1 ##
++1.1
+\ No newline at end of property
+Index: tests/test_28.phpt
+===================================================================
+--- tests/test_28.phpt	(.../tags/RELEASE_1_0_2)
++++ tests/test_28.phpt	(.../trunk)
+@@ -0,0 +1,27 @@
++--TEST--
++BBCODE Limit Args
++--SKIP--
++<?php
++if (!extension_loaded('bbcode')){
++	die ('skip bbcode not loadable');
++}
++?>
++--FILE--
++<?php
++
++$text = <<< MSG
++[i]foo[/i]
++[i]bar[/i]
++[i]Foo - Bar[/i]
++MSG;
++
++$BBCode = array(
++	'i' => array('type'=> BBCODE_TYPE_NOARG, 'max'=>2, 'open_tag'=>'<i>', 'close_tag'=>'</i>'),
++);
++
++echo bbcode_parse(bbcode_create($BBCode), $text);
++?>
++--EXPECT--
++<i>foo</i>
++<i>bar</i>
++[i]Foo - Bar[/i]
+Index: tests/test_29.phpt
+===================================================================
+--- tests/test_29.phpt	(.../tags/RELEASE_1_0_2)
++++ tests/test_29.phpt	(.../trunk)
+@@ -0,0 +1,31 @@
++--TEST--
++BBCODE Limit Args Nested
++--SKIP--
++<?php
++if (!extension_loaded('bbcode')){
++	die ('skip bbcode not loadable');
++}
++?>
++--FILE--
++<?php
++
++$text = <<< MSG
++[b][i][b]foo[/b][/i]
++[i][b]bar[/b][/i][/b]
++[i][b]Foo[/b] - Bar[/i]
++[i]Test[b]2[/b][/i]
++MSG;
++
++$BBCode = array(
++	'i' => array('type'=> BBCODE_TYPE_NOARG, 'max'=>2, 'open_tag'=>'<i>', 'close_tag'=>'</i>'),
++	'b' => array('type'=> BBCODE_TYPE_NOARG, 'max'=>2, 'open_tag'=>'<b>', 'close_tag'=>'</b>'),
++);
++
++echo bbcode_parse(bbcode_create($BBCode), $text);
++?>
++--EXPECT--
++[b]<i><b>foo</b></i>
++<i><b>bar</b></i>[/b]
++[i][b]Foo[/b] - Bar[/i]
++[i]Test[b]2[/b][/i]
++
+Index: tests
+===================================================================
+--- tests	(.../tags/RELEASE_1_0_2)
++++ tests	(.../trunk)
 
 Property changes on: tests
 ___________________________________________________________________
 Added: svn:ignore
-   + *.diff
-*.mem
-*.log
-*.out
-*.exp
-*.swp
-*.php
-phpt.*
-
-
+## -0,0 +1,8 ##
++*.diff
++*.mem
++*.log
++*.out
++*.exp
++*.swp
++*.php
++phpt.*
 Index: bbcode.php
 ===================================================================
 --- bbcode.php	(.../tags/RELEASE_1_0_2)
@@ -1700,12 +1791,17 @@ Index: bbcode.php
 Property changes on: bbcode.php
 ___________________________________________________________________
 Added: svn:eol-style
-   + native
+## -0,0 +1 ##
++native
+\ No newline at end of property
 Added: svn:keywords
-   + Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+## -0,0 +1 ##
++Id Rev Revision Date LastChangedDate LastChangedRevision Author LastChangedBy HeadURL URL
+\ No newline at end of property
 Added: cvs2svn:cvs-rev
-   + 1.4
-
+## -0,0 +1 ##
++1.4
+\ No newline at end of property
 Index: config.m4
 ===================================================================
 --- config.m4	(.../tags/RELEASE_1_0_2)
@@ -1723,23 +1819,54 @@ Index: config.m4
 Property changes on: config.m4
 ___________________________________________________________________
 Modified: cvs2svn:cvs-rev
-   - 1.4
-   + 1.5
-
+## -1 +1 ##
+-1.4
++1.5
+\ No newline at end of property
 Index: lib/bbcode2.c
 ===================================================================
 --- lib/bbcode2.c	(.../tags/RELEASE_1_0_2)
 +++ lib/bbcode2.c	(.../trunk)
-@@ -95,6 +95,8 @@
+@@ -1,9 +1,9 @@
+ /*
+  * This source file is part of the bbcode library.
+- * Written and maintained by Xavier De Cock 2006-2007
++ * Written and maintained by Xavier De Cock 2006-2010
+  * Licensed under the BSD License Terms
+  * Refer to the accompanying documentation for details on usage and license.
+- * See also: Company Website: http://www.bmco.be/
++ * See also: Company Website: http://www.nxdomain.be/
+  * See also: Hosted on pecl: http://pecl.php.net/
+  * Leave this header As Is, add your name as maintainer, and please, contribute
+  * enhancement back to the community
+@@ -55,7 +55,7 @@
+ 		char *tag, int tag_size,
+ 		char *open_tag, int open_tag_size, char *close_tag, int close_tag_size,
+ 		char *default_arg, int default_arg_size, char *parent_list,
+-		int parent_list_size, char *child_list, int child_list_size, 
++		int parent_list_size, char *child_list, int child_list_size, long max_parsed,
+ 		int (*param_handling_func)(bstring content, bstring param, void *func_data), 
+ 		int (*content_handling_func)(bstring content, bstring param, void *func_data),
+ 		void *param_handling_func_data, void *content_handling_func_data) {
+@@ -66,6 +66,7 @@
+ 		entry=bbcode_entry_create();
+ 	}
+ 	entry->type=type;
++	entry->max_parsed=max_parsed;
+ 	entry->flags=flags;
+ 	entry->tag=blk2bstr(tag, tag_size);
+ 	entry->open_tag=blk2bstr(open_tag, open_tag_size);
+@@ -95,6 +96,9 @@
  /* Parse a BBCoded string to is treated equivalent */
  char *bbcode_parse(bbcode_parser_p parser, char *string, int string_size,
  		int *result_size) {
 +	char *return_value;
++	int i;
 +
  	bstring to_parse = NULL;
  	bstring parsed = NULL;
  	to_parse=bfromcstr("");
-@@ -103,9 +105,10 @@
+@@ -103,9 +107,10 @@
  	if (parser->options & BBCODE_DISABLE_TREE_BUILD) {
  		/* No BBCode Parsing */
  		if (parser->options & BBCODE_FORCE_SMILEYS_OFF) {
@@ -1751,7 +1878,7 @@ Index: lib/bbcode2.c
  			return memcpy(return_value, string, string_size);
  		}
  		/* Prepare Datas for smiley */
-@@ -115,12 +118,14 @@
+@@ -115,12 +120,14 @@
  		/* Smiley Parsing */
  		bbcode_parse_smileys(to_parse, parser->smileys);
  	} else {
@@ -1768,7 +1895,19 @@ Index: lib/bbcode2.c
  		/* Preparing tag_list if needed */
  		bbcode_prepare_tag_list(parser);
  		/* Build the BBCode Tree from the string */
-@@ -136,7 +141,7 @@
+@@ -130,13 +137,19 @@
+ 		/* Reset the working string */
+ 		bassigncstr(to_parse, "");
+ 		/* Apply the Output Rules */
++		parser->tag_counter=(long *)malloc(bbcode_array_length(parser->bbcodes->bbcodes)*sizeof(long));
++		for (i=0; i<bbcode_array_length(parser->bbcodes->bbcodes); ++i) {
++			parser->tag_counter[i]=0;
++		}
+ 		bbcode_apply_rules(parser, tree, to_parse);
++		free(parser->tag_counter);
++		parser->tag_counter=NULL;
+ 		/* Destroy Tree */
+ 		bbcode_tree_free(tree);
  	}
  	/* Getting the return string */
  	*result_size=to_parse->slen;
@@ -1777,7 +1916,7 @@ Index: lib/bbcode2.c
  	return_value=memcpy(return_value, to_parse->data, to_parse->slen+1);
  	bdestroy(to_parse);
  	bdestroy(parsed);
-@@ -173,6 +178,8 @@
+@@ -173,6 +186,8 @@
  	struct bstrList *bsplited;
  	char accept_smileys;
  	char default_smileys;
@@ -1786,16 +1925,21 @@ Index: lib/bbcode2.c
  	accept_smileys=1;
  	if (parser->options & BBCODE_FORCE_SMILEYS_OFF) {
  		accept_smileys=0;
-@@ -181,7 +188,7 @@
+@@ -181,9 +196,12 @@
  	if (parser->options & BBCODE_DEFAULT_SMILEYS_ON) {
  		default_smileys=1;
  	}
 -	int i, j, max;
-+
++	
  	max=0;
  	list=parser->bbcodes;
++	if (list->options & BBCODE_LIST_IS_READY ) {
++		return;
++	}
  	/* Resolve cache preparation */
-@@ -211,8 +218,11 @@
+ 	for (i=0; i<bbcode_array_length(list->bbcodes); i++) {
+ 		bbcode=bbcode_get_bbcode(parser, i);
+@@ -211,8 +229,11 @@
  		list->search_cache[i]=NULL;
  	}
  	for (i=0; i<bbcode_array_length(list->bbcodes); i++) {
@@ -1808,7 +1952,7 @@ Index: lib/bbcode2.c
  		if (list->search_cache[slen]==NULL) {
  			list->search_cache[slen]
  					=(bbcode_search_p) malloc(sizeof(bbcode_search));
-@@ -220,7 +230,7 @@
+@@ -220,7 +241,7 @@
  			list->search_cache[slen]=(bbcode_search_p) realloc(
  					list->search_cache[slen], sizeof(bbcode_search) * (list->num_cache[slen]+1));
  		}
@@ -1817,7 +1961,7 @@ Index: lib/bbcode2.c
  		temp.tag_name=bbcode->tag;
  		temp.tag_id=i;
  		list->search_cache[slen][list->num_cache[slen]]=temp;
-@@ -239,6 +249,7 @@
+@@ -239,6 +260,7 @@
  			/* All Accepted */
  			list->root->childs->type=BBCODE_ALLOW_LIST_TYPE_ALL;
  		} else {
@@ -1825,7 +1969,7 @@ Index: lib/bbcode2.c
  			bstring work = bstrcpy(list->root->child_list);
  			if ((bchar(list->root->child_list, 0) == '!') == 1) {
  				list->root->childs->type=BBCODE_ALLOW_LIST_TYPE_EXCLUDE;
-@@ -249,7 +260,7 @@
+@@ -249,7 +271,7 @@
  			}
  			/* We add all entries */
  			bsplited=bsplit (work, ',');
@@ -1834,7 +1978,7 @@ Index: lib/bbcode2.c
  			bbcode_allow_list_check_size(list->root->childs, bsplited->qty);
  			for (j=0; j<bsplited->qty; j++) {
  				find = bbcode_get_tag_id (parser, bsplited->entry[j], -1);
-@@ -294,6 +305,8 @@
+@@ -294,6 +316,8 @@
  				/* All Accepted */
  				bbcode->parents->type=BBCODE_ALLOW_LIST_TYPE_ALL;
  			} else {
@@ -1843,7 +1987,7 @@ Index: lib/bbcode2.c
  				bstring work = bstrcpy(bbcode->parent_list);
  				if (bchar(bbcode->parent_list, 0) == '!') {
  					bbcode->parents->type=BBCODE_ALLOW_LIST_TYPE_EXCLUDE;
-@@ -303,7 +316,7 @@
+@@ -303,7 +327,7 @@
  				}
  				/* We add all entries */
  				bsplited=bsplit (work, ',');
@@ -1852,7 +1996,7 @@ Index: lib/bbcode2.c
  				bbcode_allow_list_check_size(bbcode->parents, bsplited->qty);
  				for (j=0; j<bsplited->qty; j++) {
  					find = bbcode_get_tag_id (parser, bsplited->entry[j], -1);
-@@ -324,6 +337,8 @@
+@@ -324,6 +348,8 @@
  				/* All Accepted */
  				bbcode->childs->type=BBCODE_ALLOW_LIST_TYPE_ALL;
  			} else {
@@ -1861,7 +2005,7 @@ Index: lib/bbcode2.c
  				bstring work=bstrcpy(bbcode->child_list);
  				if (bchar(bbcode->child_list, 0) == '!') {
  					bbcode->childs->type=BBCODE_ALLOW_LIST_TYPE_EXCLUDE;
-@@ -333,7 +348,7 @@
+@@ -333,7 +359,7 @@
  				}
  				/* We add all entries */
  				bsplited=bsplit (work, ',');
@@ -1870,7 +2014,7 @@ Index: lib/bbcode2.c
  				bbcode_allow_list_check_size(bbcode->childs, bsplited->qty);
  				for (j=0; j<bsplited->qty; j++) {
  					find = bbcode_get_tag_id (parser, bsplited->entry[j], -1);
-@@ -367,6 +382,8 @@
+@@ -367,6 +393,8 @@
  	int offset, end, next_equal, next_close, string_length;
  	long tag_id;
  	int quote_enabled=(quote_double || quote_single || quote_html);
@@ -1879,7 +2023,7 @@ Index: lib/bbcode2.c
  	string_length=blength(string);
  	tag_id=end=next_equal=next_close=0;
  	end_double=bfromcstr("\"]");
-@@ -376,7 +393,6 @@
+@@ -376,7 +404,6 @@
  	/* END INIT */
  	offset=bstrchr(string, '[');
  	bbcode_tree_push_string_child(tree, bmidstr(string, 0, offset), offset);
@@ -1887,7 +2031,7 @@ Index: lib/bbcode2.c
  	work_stack=bbcode_parse_stack_create();
  	bbcode_parse_stack_push_element(work_stack,tree);
  	close_stack=bbcode_parse_stack_create();
-@@ -398,9 +414,11 @@
+@@ -398,9 +425,11 @@
  										1))) {
  							/* Quotes */
  							if (quote_enabled) {
@@ -1900,7 +2044,7 @@ Index: lib/bbcode2.c
  								if (quote_single && bchar(string, next_equal+1)
  									=='\'') {
  									end_quote=end_single;
-@@ -445,8 +463,6 @@
+@@ -445,8 +474,6 @@
  									} else {
  										/* No Ending Quote, go to next tag */
  										end=next_equal+diff;
@@ -1909,7 +2053,7 @@ Index: lib/bbcode2.c
  									}
  								}
  							} else {
-@@ -465,6 +481,7 @@
+@@ -465,6 +492,7 @@
  															+1), tag_id,
  											argument, offset);
  									bdestroy(argument);
@@ -1917,7 +2061,7 @@ Index: lib/bbcode2.c
  									end=next_close;
  									added=1;
  								}
-@@ -659,6 +676,8 @@
+@@ -659,6 +687,8 @@
  		long parent_id, char force_false) {
  	int autocorrect, orig_parent, ret;
  	long i,j;
@@ -1926,7 +2070,7 @@ Index: lib/bbcode2.c
  	bbcode_p tag= bbcode_get_bbcode(parser,tree->tag_id);
  	/* Options */
  	autocorrect = parser->options & BBCODE_AUTO_CORRECT;
-@@ -687,7 +706,7 @@
+@@ -687,7 +717,7 @@
  			}
  		}
  	}
@@ -1935,7 +2079,7 @@ Index: lib/bbcode2.c
  	for (i = 0; i < tree->childs.size ; i++) {
  		child=(tree->childs.element[i]);
  		if (child->type==BBCODE_TREE_CHILD_TYPE_TREE) {
-@@ -796,13 +815,16 @@
+@@ -796,13 +826,16 @@
  	bstring last_string = NULL;
  	bstring tmp_string = NULL;
  	long i;
@@ -1954,7 +2098,129 @@ Index: lib/bbcode2.c
  	content=arg=NULL;
  	/* Multipart Merging */
  	for (i=0 ; i < tree->childs.size; i++) {
-@@ -977,14 +999,16 @@
+@@ -882,55 +915,78 @@
+ 			bassign(parsed, tree->open_string);
+ 			bconcat(parsed, working_string);
+ 		} else {
+-			bassign(parsed, tag->open_tag);
+-			arg=bfromcstr("");
+-			if (tag->speed_cache & BBCODE_CACHE_ACCEPT_ARG){
+-				if (blength(tree->argument)>0){
+-					bassign(arg,tree->argument);
+-				} else {
+-					bassign(arg, tag->default_arg);
++			if (tree->tag_id>=0 && tag->max_parsed>0 && (parser->tag_counter[tree->tag_id])>=tag->max_parsed) {
++				bassign(parsed, tree->open_string);
++				bconcat(parsed, working_string);
++				bconcat(parsed, tree->close_string);
++			} else {
++				bassign(parsed, tag->open_tag);
++				arg=bfromcstr("");
++				if (tree->tag_id>=0) {
++					++parser->tag_counter[tree->tag_id];
+ 				}
+-				if (tag->flags & BBCODE_FLAGS_ARG_PARSING){
+-					bbcode_parser_p arg_parser;
+-					char *string_output;
+-					int string_size;
+-					if (parser->argument_parser != NULL){
+-						arg_parser=parser->argument_parser;
++				if (tag->speed_cache & BBCODE_CACHE_ACCEPT_ARG){
++					if (blength(tree->argument)>0){
++						bassign(arg,tree->argument);
+ 					} else {
+-						arg_parser=parser;
++						bassign(arg, tag->default_arg);
+ 					}
+-					string_output=bbcode_parse(arg_parser, arg->data, arg->slen, &string_size);
+-					bdestroy(arg);
+-					arg=blk2bstr(string_output, string_size);
+-					free(string_output);
++					if (tag->flags & BBCODE_FLAGS_ARG_PARSING){
++						bbcode_parser_p arg_parser;
++						char *string_output;
++						int string_size;
++						int j;
++						long *tag_counter=NULL;
++						if (parser->argument_parser != NULL){
++							arg_parser=parser->argument_parser;
++						} else {
++							arg_parser=parser;
++							tag_counter=parser->tag_counter;
++							arg_parser->tag_counter=(long *)malloc(bbcode_array_length(arg_parser->bbcodes->bbcodes)*sizeof(long));
++							for (j=0; j<bbcode_array_length(arg_parser->bbcodes->bbcodes); ++j) {
++								arg_parser->tag_counter[j]=0;
++							}
++						}
++						string_output=bbcode_parse(arg_parser, arg->data, arg->slen, &string_size);
++						if (parser->argument_parser != NULL) {
++							free(arg_parser->tag_counter);
++						} else {
++							free(arg_parser->tag_counter);
++							parser->tag_counter=tag_counter;
++							tag_counter=NULL;
++						}
++						bdestroy(arg);
++						arg=blk2bstr(string_output, string_size);
++						free(string_output);
++					}
+ 				}
+-			}
+-			/* Callbacks - 1/ Content_callback */
+-			if (tag->content_handling_func != NULL){
+-				tag->content_handling_func(working_string, arg, tag->content_handling_func_data);
+-			}
+-			/* Callbacks - 2/ Param callback */
+-			if (tag->param_handling_func != NULL){
+-				tag->param_handling_func(working_string, arg, tag->param_handling_func_data);
+-			}
++				/* Callbacks - 1/ Content_callback */
++				if (tag->content_handling_func != NULL){
++					tag->content_handling_func(working_string, arg, tag->content_handling_func_data);
++				}
++				/* Callbacks - 2/ Param callback */
++				if (tag->param_handling_func != NULL){
++					tag->param_handling_func(working_string, arg, tag->param_handling_func_data);
++				}
+ 			
+-			/* Replacing {ARG} by $arg and {CONTENT} by $string in arg & start */
+-			if (blength(arg)){
+-				bfindreplace(arg, parser->content_replace, working_string,0);
++				/* Replacing {ARG} by $arg and {CONTENT} by $string in arg & start */
++				if (blength(arg)){
++					bfindreplace(arg, parser->content_replace, working_string,0);
++				}
++				if (tag->speed_cache & BBCODE_CACHE_START_HAS_BRACKET_OPEN){
++					bfindreplace(parsed, parser->content_replace, working_string, 0);
++					bfindreplace(parsed, parser->arg_replace, arg, 0);
++				}
++				/* Replacing {ARG} by $arg in string & end */
++				bfindreplace(working_string, parser->arg_replace, arg,0);
++				bassign(tmp_string, tag->close_tag);
++				if (tag->speed_cache & BBCODE_CACHE_END_HAS_BRACKET_OPEN){
++					bfindreplace(tmp_string, parser->arg_replace, arg, 0);
++				}
++				/* Concat everything */
++				bconcat(parsed, working_string);
++				bconcat(parsed, tmp_string);
+ 			}
+-			if (tag->speed_cache & BBCODE_CACHE_START_HAS_BRACKET_OPEN){
+-				bfindreplace(parsed, parser->content_replace, working_string, 0);
+-				bfindreplace(parsed, parser->arg_replace, arg, 0);
+-			}
+-			/* Replacing {ARG} by $arg in string & end */
+-			bfindreplace(working_string, parser->arg_replace, arg,0);
+-			bassign(tmp_string, tag->close_tag);
+-			if (tag->speed_cache & BBCODE_CACHE_END_HAS_BRACKET_OPEN){
+-				bfindreplace(tmp_string, parser->arg_replace, arg, 0);
+-			}
+-			/* Concat everything */
+-			bconcat(parsed, working_string);
+-			bconcat(parsed, tmp_string);
+ 		}
+ 	}
+ 	/* Freeing resources */
+@@ -977,14 +1033,16 @@
  					}
  				}
  			} else {
@@ -1975,7 +2241,7 @@ Index: lib/bbcode2.c
  				while (1) {
  					equal=bstrcmp(lower_tag, list[i].tag_name);
  					if (equal==0) {
-@@ -1450,8 +1474,9 @@
+@@ -1450,8 +1508,9 @@
  /* Insert a given child on a given position */
  void bbcode_tree_insert_child_at(bbcode_parse_tree_p tree,
  		bbcode_parse_tree_child_p bbcode_parse_tree_child, long pos) {
@@ -1986,7 +2252,7 @@ Index: lib/bbcode2.c
  	memmove(&(tree->childs.element[pos+1]), 
  			&(tree->childs.element[pos]), size*(tree->childs.size-pos-1));
  	tree->childs.element[pos]=bbcode_parse_tree_child;
-@@ -1552,8 +1577,9 @@
+@@ -1552,8 +1611,9 @@
  /* Remove element from the Tree array @ index */
  void bbcode_parse_drop_element_at(bbcode_parse_tree_array_p stack, long index) {
  	if (index<stack->size) {
@@ -2001,13 +2267,26 @@ Index: lib/bbcode2.c
 Property changes on: lib/bbcode2.c
 ___________________________________________________________________
 Modified: cvs2svn:cvs-rev
-   - 1.25
-   + 1.27
-
+## -1 +1 ##
+-1.25
++1.27
+\ No newline at end of property
 Index: lib/bbcode2.h
 ===================================================================
 --- lib/bbcode2.h	(.../tags/RELEASE_1_0_2)
 +++ lib/bbcode2.h	(.../trunk)
+@@ -1,9 +1,9 @@
+ /*
+  * This source file is part of the bbcode library.
+- * Written and maintained by Xavier De Cock 2006-2007
++ * Written and maintained by Xavier De Cock 2006-2010
+  * Licensed under the BSD License Terms
+  * Refer to the accompanying documentation for details on usage and license.
+- * See also: Company Website: http://www.bmco.be/
++ * See also: Company Website: http://www.nxdomain.be/
+  * See also: Hosted on pecl: http://pecl.php.net/
+  * Leave this header As Is, add your name as maintainer, and please, contribute
+  * enhancement back to the community
 @@ -75,10 +75,11 @@
  #define bbcode_array_element(array, pos)    ((((unsigned)(pos)) < (unsigned)bbcode_array_length(array)) ? ((array)->element[(pos)]) : NULL)
  #define bbcode_find_next(to_update,string,offset,char) if (to_update <= offset){ if (0>(to_update = bstrchrp( string, char, offset))){ to_update = blength( string )+5; } }
@@ -2021,69 +2300,98 @@ Index: lib/bbcode2.h
      if (sc_offset!=BSTR_ERR){ \
          bbcode_tree_push_tree_child(parser, bbcode_get_cn(parser), work_stack, close_stack, bmidstr(string, offset, end-offset+1),tag_id, argument, offset); \
          bbcode_tree_push_string_child(bbcode_get_cn(parser), bmidstr(string,next_close+1,sc_offset-next_close-1), offset+next_close+1); \
+@@ -184,6 +185,7 @@
+ 	char type;
+ 	long flags;
+ 	char speed_cache;
++	long max_parsed;
+ 	bstring tag;
+ 	bstring open_tag;
+ 	bstring close_tag;
+@@ -218,6 +220,7 @@
+ 	bstring content_replace;
+ 	bstring arg_replace;
+ 	long options;
++	long *tag_counter;
+ };
+ 
+ /* This is the parse tree temporary data store */
+@@ -283,7 +286,7 @@
+ 		char *tag, int tag_size,
+ 		char *open_tag, int open_tag_size, char *close_tag, int close_tag_size,
+ 		char *default_arg, int default_arg_size, char *parent_list,
+-		int parent_list_size, char *child_list, int child_list_size, 
++		int parent_list_size, char *child_list, int child_list_size, long max_parsed,
+ 		int (*param_handling_func)(bstring content, bstring param, void *func_data), 
+ 		int (*content_handling_func)(bstring content, bstring param, void *func_data),
+ 		void *param_handling_func_data, void *content_handling_func_data);
 
 Property changes on: lib/bbcode2.h
 ___________________________________________________________________
 Modified: cvs2svn:cvs-rev
-   - 1.18
-   + 1.19
-
+## -1 +1 ##
+-1.18
++1.19
+\ No newline at end of property
+Index: lib
+===================================================================
+--- lib	(.../tags/RELEASE_1_0_2)
++++ lib	(.../trunk)
 
 Property changes on: lib
 ___________________________________________________________________
 Added: svn:ignore
-   + .deps
-Makefile
-*.lo
-*.loT
-*.slo
-*.mk
-*.la
-.libs
-libs.mk
-ac*.m4
-build
-config.h
-config.h.in
-config.nice
-config.sub
-configure
-configure.in
-config.status
-config.cache
-conftest
-conftest.c
-core
-dynlib.m4
-install-sh
-ltmain.sh
-include
-Makefile.fragments
-Makefile.global
-Makefile.objects
-missing
-mkinstalldirs
-modules
-scan_makefile_in.awk
-config.guess
-*swp
-config.log
-libtool
-Debug
-Release
-Debug_TS
-Release_TS
-*.plg
-*.patch
-*.tgz
-*.ncb
-*.opt
-*.dsw
-autom4te.cache
-run-tests-config.php
-run-tests.php
-
-
+## -0,0 +1,50 ##
++.deps
++Makefile
++*.lo
++*.loT
++*.slo
++*.mk
++*.la
++.libs
++libs.mk
++ac*.m4
++build
++config.h
++config.h.in
++config.nice
++config.sub
++configure
++configure.in
++config.status
++config.cache
++conftest
++conftest.c
++core
++dynlib.m4
++install-sh
++ltmain.sh
++include
++Makefile.fragments
++Makefile.global
++Makefile.objects
++missing
++mkinstalldirs
++modules
++scan_makefile_in.awk
++config.guess
++*swp
++config.log
++libtool
++Debug
++Release
++Debug_TS
++Release_TS
++*.plg
++*.patch
++*.tgz
++*.ncb
++*.opt
++*.dsw
++autom4te.cache
++run-tests-config.php
++run-tests.php
 Index: php_bbcode.c
 ===================================================================
 --- php_bbcode.c	(.../tags/RELEASE_1_0_2)
@@ -2203,7 +2511,7 @@ Index: php_bbcode.c
  	}
  
  	zargs = (zval ***) emalloc(sizeof(zval **) * 2);
-@@ -105,223 +63,218 @@
+@@ -105,223 +63,226 @@
  	MAKE_STD_ZVAL(*zargs[1]);
  	ZVAL_STRINGL(*zargs[1], bdata(param), blength(param), 1);
  
@@ -2360,6 +2668,7 @@ Index: php_bbcode.c
 -	if ((SUCCESS == zend_hash_find(ht, "flags", sizeof("flags"), (void *) &e))
 -			&& (Z_TYPE_PP(e) == IS_LONG)) {
 -			flags = Z_LVAL_PP(e);
++	long max_parsed=-1;
 +	int open_tag_len = 0, close_tag_len = 0, default_arg_len = 0;
 +	zval *content_handling = NULL;
 +	zval *param_handling = NULL;
@@ -2428,6 +2737,13 @@ Index: php_bbcode.c
  		default_arg = empty;
  	}
 -	if ((SUCCESS == zend_hash_find(ht, "content_handling", sizeof("content_handling"), (void *) &e))) {
++
++	/* max_parsed */
++	if ((SUCCESS == zend_hash_find(ht, "max", sizeof("max"), (void *) &e)) &&
++		(Z_TYPE_PP(e) == IS_LONG)
++	) {
++		max_parsed = Z_LVAL_PP(e);
++	}
 +
 +	/* content_handling */
 +	if ((SUCCESS == zend_hash_find(ht, "content_handling", sizeof("content_handling"), (void *) &e)) && 
@@ -2532,7 +2848,7 @@ Index: php_bbcode.c
 +		close_tag, close_tag_len,
 +		default_arg, default_arg_len,
 +		parents, parents_len,
-+		childs, childs_len, 
++		childs, childs_len, max_parsed,
 +		param_handling_func,
 +		content_handling_func,
 +		(void *)param_handling,
@@ -2576,7 +2892,7 @@ Index: php_bbcode.c
  	/* BBCODE Flags */
  	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_ARG_PARSING",			BBCODE_FLAGS_ARG_PARSING, CONST_CS|CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_CDATA_NOT_ALLOWED",	BBCODE_FLAGS_CDATA_NOT_ALLOWED, CONST_CS|CONST_PERSISTENT);
-@@ -330,42 +283,52 @@
+@@ -330,42 +291,52 @@
  	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_ONE_OPEN_PER_LEVEL",	BBCODE_FLAGS_ONE_OPEN_PER_LEVEL, CONST_CS|CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_REMOVE_IF_EMPTY",		BBCODE_FLAGS_REMOVE_IF_EMPTY, CONST_CS|CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("BBCODE_FLAGS_DENY_REOPEN_CHILD",	BBCODE_FLAGS_DENY_REOPEN_CHILD, CONST_CS|CONST_PERSISTENT);
@@ -2639,7 +2955,7 @@ Index: php_bbcode.c
  	if (intern->rsrc_id) {
  			ALLOC_INIT_ZVAL(pointer);
  			ALLOC_INIT_ZVAL(return_value);
-@@ -373,9 +336,9 @@
+@@ -373,9 +344,9 @@
  			Z_TYPE_P(pointer) = IS_LONG;
  			Z_LVAL_P(pointer) = intern->rsrc_id;
  			ZEND_FETCH_RESOURCE(container, bbcode_container*, &pointer, -1, PHP_BBCODE_RES_NAME, le_bbcode);
@@ -2652,7 +2968,7 @@ Index: php_bbcode.c
  			zend_list_delete(intern->rsrc_id);
  	}
  	efree(object);
-@@ -397,120 +360,130 @@
+@@ -397,120 +368,130 @@
  									NULL TSRMLS_CC);
  	retval->handlers = handlers;
  }
@@ -2872,7 +3188,7 @@ Index: php_bbcode.c
  {
  	zval *z_bbcode_parser;
  	bbcode_parser_p parser;
-@@ -518,101 +491,165 @@
+@@ -518,101 +499,165 @@
  	int str_len;
  	char *ret_string;
  	int ret_size;
@@ -3082,9 +3398,107 @@ Index: php_bbcode.c
 Property changes on: php_bbcode.c
 ___________________________________________________________________
 Modified: cvs2svn:cvs-rev
-   - 1.25
-   + 1.30
-
+## -1 +1 ##
+-1.25
++1.30
+\ No newline at end of property
+Index: package.xml
+===================================================================
+--- package.xml	(.../tags/RELEASE_1_0_2)
++++ package.xml	(.../trunk)
+@@ -0,0 +1,92 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
++ <name>bbcode</name>
++ <channel>pecl.php.net</channel>
++ <summary>BBCode parsing Extension</summary>
++ <description>This is a quick and efficient BBCode Parsing Library.
++  It provides various tag types, high speed tree based parsing,
++  callback system, tag position restriction, Smiley Handling,
++  Subparsing
++  
++  It will force closing BBCode tags in the good order, and closing
++  terminating tags at the end of the string this is in order to ensure
++  HTML Validity in all case.</description>
++ <lead>
++  <name>Xavier De Cock</name>
++  <user>void</user>
++  <email>void@php.net</email>
++  <active>yes</active>
++ </lead>
++ <date>2010-11-14</date>
++ <time>15:50:00</time>
++ <version>
++  <release>1.0.3b1</release>
++  <api>1.0.0</api>
++ </version>
++ <stability>
++  <release>beta</release>
++  <api>stable</api>
++ </stability>
++ <license filesource="/LICENSE">PHP / BSD</license>
++ <notes>* Release of changes in svn
++* Fixed Bug #16821 - PHP 5.3 Compat (lstrojny)
++* Fixed Win Build (pajoye)
++* Fixed Bug In quote Handling (jani)
++* Code cleanup (jani)
++* zend_error() was used instead of php_error_docref() (tony2001)
++* Added 2 tests
++</notes>
++ <contents>
++  <dir name="/">
++   <file md5sum="b9808e4a820e8368ad345b464efa2a6e" name="lib/bbcode2.c" role="src" />
++   <file md5sum="e6d904764632e0b7ee0a5cb2dcee48d6" name="lib/bbcode2.h" role="src" />
++   <file md5sum="acb7a9d03aa267b50f4ffe44433c287b" name="lib/bstrlib.c" role="src" />
++   <file md5sum="e4deb30804fc0006d2886eb021f609ce" name="lib/bstrlib.h" role="src" />
++   <file md5sum="9ec591c218cbdd496c32d6ac557dfdbc" name="tests/test_1.phpt" role="test" />
++   <file md5sum="597c30e1f2ed6e2bdef336a1124f7cbf" name="tests/test_2.phpt" role="test" />
++   <file md5sum="7235a7ac84eda533f128646b556b97fb" name="tests/test_3.phpt" role="test" />
++   <file md5sum="a22ddfa400aafadc24025f4245e0310f" name="tests/test_4.phpt" role="test" />
++   <file md5sum="cf4327af815d163d9f00fa18faeedd36" name="tests/test_5.phpt" role="test" />
++   <file md5sum="0af4de1bebdc75f04a144951890b560c" name="tests/test_6.phpt" role="test" />
++   <file md5sum="77ac47cbd0aeb1449a6201df915aa023" name="tests/test_7.phpt" role="test" />
++   <file md5sum="30986eac357887ecbd2dda27e2bffaa1" name="tests/test_8.phpt" role="test" />
++   <file md5sum="8b8d9ae0e88a21251d8d3e5669367f12" name="tests/test_9.phpt" role="test" />
++   <file md5sum="304b6439b5521fc94d8090ec155ec897" name="tests/test_10.phpt" role="test" />
++   <file md5sum="58677ff592983c081637f378f8ec0044" name="tests/test_11.phpt" role="test" />
++   <file md5sum="75d1576e1109cd8369e26481f1e11809" name="tests/test_12.phpt" role="test" />
++   <file md5sum="4cee256cf8744d7cd3c9931b29140866" name="tests/test_13.phpt" role="test" />
++   <file md5sum="1f6a5fbec440aa646b4c3d73b1b00982" name="tests/test_14.phpt" role="test" />
++   <file md5sum="af870bf9466c16729a04c8dcab1fd8f1" name="tests/test_15.phpt" role="test" />
++   <file md5sum="cb95e9666da2312780923afd31854ca5" name="tests/test_16.phpt" role="test" />
++   <file md5sum="ae9fdbc59b5f3286ed5859c0a22ac6f0" name="tests/test_17.phpt" role="test" />
++   <file md5sum="33d352895677b7527add97f41c07553a" name="tests/test_18.phpt" role="test" />
++   <file md5sum="ab61739a9bf7da7e9d7e595b27a2992b" name="tests/test_19.phpt" role="test" />
++   <file md5sum="191e373b9903b535a9095200f070eded" name="tests/test_20.phpt" role="test" />
++   <file md5sum="d39184c0861c8a629a714617f19ebb18" name="tests/test_21.phpt" role="test" />
++   <file md5sum="6c421410f875ec3c236ebd5a90e5f772" name="tests/test_22.phpt" role="test" />
++   <file md5sum="86df77ea441f8c4878e9212fade2d1fb" name="tests/test_23.phpt" role="test" />
++   <file md5sum="3d00c98c73ed70949f766ad67117d4d6" name="tests/test_24.phpt" role="test" />
++   <file md5sum="028f872bbe322a53c0e44e7b931b96f0" name="tests/test_25.phpt" role="test" />
++   <file md5sum="028f872bbe322a53c0e44e7b931b96f0" name="tests/test_26.phpt" role="test" />
++   <file md5sum="028f872bbe322a53c0e44e7b931b96f0" name="tests/test_27.phpt" role="test" />
++   <file md5sum="127513a59280f3cf49f741284cf84e88" name="CREDITS" role="doc" />
++   <file md5sum="521f60986cf3891a7ba785b9146b37fa" name="LICENSE" role="doc" />
++   <file md5sum="9d9a706b737b27c0dec0b3936a46658b" name="TODO" role="doc" />
++   <file md5sum="9c7034f94f0425bfcf8a22fd0c87e9d9" name="config.m4" role="src" />
++   <file md5sum="6ce88398671fad85844a8b3d6c3de1f9" name="php_bbcode.h" role="src" />
++   <file md5sum="6c205605d01b432b3189c50f9fc05312" name="php_bbcode.c" role="src" />
++  </dir>
++ </contents>
++ <dependencies>
++  <required>
++   <php>
++    <min>5.2.0</min>
++   </php>
++   <pearinstaller>
++    <min>1.4.0a1</min>
++   </pearinstaller>
++  </required>
++ </dependencies>
++ <providesextension>bbcode</providesextension>
++ <extsrcrelease />
++</package>
 Index: php_bbcode.h
 ===================================================================
 --- php_bbcode.h	(.../tags/RELEASE_1_0_2)
@@ -3102,10 +3516,10 @@ Index: php_bbcode.h
    +----------------------------------------------------------------------+
    | Author: Xavier De Cock <void@php.net>                                |
    +----------------------------------------------------------------------+
--
++*/
+ 
 -  $Id$ 
- */
-+
+-*/
 +/* $Id$ */
 +
  #ifndef PHP_BBCODE_H
@@ -3135,9 +3549,9 @@ Index: php_bbcode.h
  #define phpext_bbcode_ptr &bbcode_module_entry
  
 -#define PHP_BBCODE_RES_NAME "BBCode resource"
--
- #endif
-+
++#endif
+ 
+-#endif
 +/*
 + * Local variables:
 + * tab-width: 4
@@ -3150,62 +3564,66 @@ Index: php_bbcode.h
 Property changes on: php_bbcode.h
 ___________________________________________________________________
 Modified: cvs2svn:cvs-rev
-   - 1.13
-   + 1.14
-
+## -1 +1 ##
+-1.13
++1.14
+\ No newline at end of property
+Index: .
+===================================================================
+--- .	(.../tags/RELEASE_1_0_2)
++++ .	(.../trunk)
 
 Property changes on: .
 ___________________________________________________________________
 Added: svn:ignore
-   + .deps
-Makefile
-*.lo
-*.loT
-*.slo
-*.mk
-*.la
-.libs
-libs.mk
-ac*.m4
-build
-config.h
-config.h.in
-config.nice
-config.sub
-configure
-configure.in
-config.status
-config.cache
-conftest
-conftest.c
-core
-dynlib.m4
-install-sh
-ltmain.sh
-include
-Makefile.fragments
-Makefile.global
-Makefile.objects
-missing
-mkinstalldirs
-modules
-scan_makefile_in.awk
-config.guess
-*swp
-config.log
-libtool
-Debug
-Release
-Debug_TS
-Release_TS
-*.plg
-*.patch
-*.tgz
-*.ncb
-*.opt
-*.dsw
-autom4te.cache
-run-tests-config.php
-run-tests.php
-
-
+## -0,0 +1,50 ##
++.deps
++Makefile
++*.lo
++*.loT
++*.slo
++*.mk
++*.la
++.libs
++libs.mk
++ac*.m4
++build
++config.h
++config.h.in
++config.nice
++config.sub
++configure
++configure.in
++config.status
++config.cache
++conftest
++conftest.c
++core
++dynlib.m4
++install-sh
++ltmain.sh
++include
++Makefile.fragments
++Makefile.global
++Makefile.objects
++missing
++mkinstalldirs
++modules
++scan_makefile_in.awk
++config.guess
++*swp
++config.log
++libtool
++Debug
++Release
++Debug_TS
++Release_TS
++*.plg
++*.patch
++*.tgz
++*.ncb
++*.opt
++*.dsw
++autom4te.cache
++run-tests-config.php
++run-tests.php
