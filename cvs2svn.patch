@@ -1,21 +1,21 @@
---- php-pecl-bbcode-1.1.0/php_bbcode.h~	2010-06-03 19:56:11.000000000 +0300
-+++ php-pecl-bbcode-1.1.0/php_bbcode.h	2010-06-03 19:57:05.469721645 +0300
+--- php-pecl-bbcode-1.1.0/php_bbcode.h~	2012-08-03 12:14:37.000000000 +0300
++++ php-pecl-bbcode-1.1.0/php_bbcode.h	2012-08-03 12:15:08.622180039 +0300
 @@ -15,7 +15,7 @@
    | Author: Xavier De Cock <void@php.net>                                |
    +----------------------------------------------------------------------+
  
--  $Id$ 
+-  $Id: php_bbcode.h,v 1.12 2008/08/18 14:07:08 tony2001 Exp $ 
 +  $Id$ 
  */
  #ifndef PHP_BBCODE_H
  #define PHP_BBCODE_H 1
---- php-pecl-bbcode-1.1.0/php_bbcode.c~	2010-06-03 19:56:11.000000000 +0300
-+++ php-pecl-bbcode-1.1.0/php_bbcode.c	2010-06-03 19:57:26.069095059 +0300
+--- php-pecl-bbcode-1.1.0/php_bbcode.c~	2012-08-03 12:16:04.000000000 +0300
++++ php-pecl-bbcode-1.1.0/php_bbcode.c	2012-08-03 12:16:18.432092927 +0300
 @@ -15,7 +15,7 @@
    | Author: Xavier De Cock <void@php.net>                                |
    +----------------------------------------------------------------------+
  
--  $Id$ 
+-  $Id: php_bbcode.c,v 1.25 2008/08/18 18:21:04 void Exp $ 
 +  $Id$ 
  */
  #ifdef HAVE_CONFIG_H
