@@ -4,7 +4,7 @@ Summary:	%{modname} - parsing extension
 Summary(pl.UTF-8):	%{modname} - rozszerzenie parsujące
 Name:		php-pecl-%{modname}
 Version:	1.1.0
-Release:	2
+Release:	3
 License:	PHP / BSD
 Group:		Development/Languages/PHP
 Source0:	http://pecl.php.net/get/%{modname}-1.0.2.tgz
