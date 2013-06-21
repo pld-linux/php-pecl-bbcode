@@ -1,8 +1,9 @@
+%define		php_name	php%{?php_suffix}
 %define		modname	bbcode
 %define		status		stable
 Summary:	%{modname} - parsing extension
 Summary(pl.UTF-8):	%{modname} - rozszerzenie parsujące
-Name:		php-pecl-%{modname}
+Name:		%{php_name}-pecl-%{modname}
 Version:	1.1.0
 Release:	4
 License:	PHP / BSD
@@ -12,8 +13,8 @@ Patch0:		cvs2svn.patch
 Patch1:		branch.diff
 # Source0-md5:	1fb6971b2758a50785f188964991ddf9
 URL:		http://pecl.php.net/package/bbcode/
-BuildRequires:	php-devel >= 3:5.0.4
-BuildRequires:	rpmbuild(macros) >= 1.344
+BuildRequires:	%{php_name}-devel >= 3:5.0.4
+BuildRequires:	rpmbuild(macros) >= 1.650
 %{?requires_php_extension}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
