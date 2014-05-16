@@ -5,7 +5,7 @@ Summary:	%{modname} - parsing extension
 Summary(pl.UTF-8):	%{modname} - rozszerzenie parsujące
 Name:		%{php_name}-pecl-%{modname}
 Version:	1.1.0
-Release:	7
+Release:	8
 License:	PHP / BSD
 Group:		Development/Languages/PHP
 Source0:	http://pecl.php.net/get/%{modname}-1.0.2.tgz
@@ -17,6 +17,7 @@ BuildRequires:	%{php_name}-devel >= 3:5.0.4
 BuildRequires:	rpmbuild(macros) >= 1.650
 %{?requires_php_extension}
 Provides:	php(%{modname}) = %{version}
+Obsoletes:	php-pecl-bbcode < 1.1.0-7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
